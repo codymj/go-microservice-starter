@@ -1,4 +1,4 @@
-module go-microservice-template
+module go-microservice-starter
 
 go 1.18
 

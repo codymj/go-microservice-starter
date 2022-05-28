@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"go-microservice-template/cmd/app/config"
-	"go-microservice-template/cmd/app/routes"
+	"go-microservice-starter/cmd/app/config"
+	"go-microservice-starter/cmd/app/routes"
 	"log"
 	"net/http"
 )
