@@ -1,8 +1,6 @@
 package routes
 
 import (
-	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -28,39 +26,4 @@ func (r *Router) Setup() {
 
 	r.Router = mux.NewRouter()
 	r.Router.HandleFunc(_api+_v1+"/health", getHealth).Methods(http.MethodGet)
-}
-
-/*
- * route handler methods
- **************************************************************************************************/
-
-// getHealth performs a health check on the service
-func getHealth(w http.ResponseWriter, r *http.Request) {
-	response := GenericResponse{
-		Status:  "ok",
-		Message: "service is healthy",
-	}
-	b, err := json.Marshal(response)
-	if err != nil {
-		err = fmt.Errorf("failed to marshal health response: %w", err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	w.Header().Set(_contentType, _jsonHeader)
-	_, err = w.Write(b)
-}
-
-/*
- * structs
- **************************************************************************************************/
-
-// Router for routing requests
-type Router struct {
-	Router *mux.Router
-}
-
-// GenericResponse is for sending generic messages to client
-type GenericResponse struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
 }
