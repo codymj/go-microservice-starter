@@ -27,7 +27,7 @@ func start() error {
 	router.Setup()
 
 	// start application
-	log.Printf("starting application on port %s\n", port)
+	log.Printf("service running on port %s\n", port)
 	err := http.ListenAndServe(port, router.Router)
 	if err != nil {
 		log.Println("error setting up application")

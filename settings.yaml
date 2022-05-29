@@ -8,3 +8,9 @@ SERVER_IDLE_TIMEOUT: 30s
 SERVICE_NAMESPACE: domain-subdomain
 SERVICE_NAME: newservice
 SERVICE_VERSION: 0.0.1
+
+# database
+DB_HOST: 172.17.0.2:5432
+DB_USER: postgres
+DB_PASSWORD: <replace>
+DB_SCHEMA: public
