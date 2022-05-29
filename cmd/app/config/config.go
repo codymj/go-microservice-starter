@@ -2,12 +2,19 @@ package config
 
 import (
 	"fmt"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+	"go-microservice-starter/internal/database"
+	"go-microservice-starter/internal/hello"
+	"go-microservice-starter/internal/validate"
 
 	"github.com/spf13/viper"
 )
 
 // Registry for configuration values
-var Registry *viper.Viper
+var (
+	Registry *viper.Viper
+)
 
 // Set configurations
 func Set() {
@@ -15,9 +22,57 @@ func Set() {
 	Registry.AddConfigPath(".")
 	Registry.AddConfigPath("../..")
 	Registry.SetConfigFile("settings.yaml")
-
 	err := Registry.ReadInConfig()
 	if err != nil {
 		panic(fmt.Errorf("fatal error config file: %w \n", err))
 	}
+
+	SetLoggerLevel()
+}
+
+// SetLoggerLevel sets requested log level
+func SetLoggerLevel() {
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+
+	loggerLevel := Registry.GetString("LOGGER_LEVEL")
+	switch loggerLevel {
+	case "trace":
+		zerolog.SetGlobalLevel(zerolog.TraceLevel)
+	case "debug":
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	case "info":
+		zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	case "warn":
+		zerolog.SetGlobalLevel(zerolog.WarnLevel)
+	case "error":
+		zerolog.SetGlobalLevel(zerolog.ErrorLevel)
+	case "fatal":
+		zerolog.SetGlobalLevel(zerolog.FatalLevel)
+	case "panic":
+		zerolog.SetGlobalLevel(zerolog.PanicLevel)
+	default:
+		log.Warn().Msg("invalid log level in config, defaulting to info")
+		zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	}
+}
+
+// GetDBSettings gets the DBConfig
+func GetDBSettings() database.DBConfig {
+	return database.DBConfig{
+		User:     Registry.GetString("DB_USER"),
+		Password: Registry.GetString("DB_PASSWORD"),
+		DBName:   Registry.GetString("DB_DBNAME"),
+		Host:     Registry.GetString("DB_HOST"),
+		Port:     Registry.GetInt("DB_PORT"),
+	}
+}
+
+// NewValidateService creates an instance of the json validate service
+func NewValidateService() validate.Service {
+	return validate.New()
+}
+
+// NewHealthService creates an instance of the hello service
+func NewHealthService(db *database.Connection) hello.Service {
+	return hello.New(db)
 }
