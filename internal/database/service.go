@@ -9,15 +9,15 @@ import (
 
 // NewConnection is a struct that wraps a Querier and the actual sql.DB connection
 func NewConnection(cfg DBConfig) (*Connection, error) {
-	connectionString := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+	connStr := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%d",
 		cfg.Host,
-		cfg.Port,
 		cfg.User,
 		cfg.Password,
 		cfg.DBName,
+		cfg.Port,
 	)
-	db, err := sql.Open("postgres", connectionString)
+	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func NewConnection(cfg DBConfig) (*Connection, error) {
 		return nil, err
 	}
 
-	//Set defaults
+	// set defaults
 	db.SetConnMaxLifetime(time.Minute * 3)
 	db.SetMaxOpenConns(10)
 	db.SetMaxIdleConns(10)

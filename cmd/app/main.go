@@ -17,8 +17,6 @@ func main() {
 }
 
 func start() error {
-	log.Info().Msg("initializing application...")
-
 	// init service
 	config.Set()
 	port := config.Registry.GetString("SERVER_PORT")

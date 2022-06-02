@@ -2,7 +2,6 @@ package routes
 
 import (
 	"fmt"
-	"github.com/rs/zerolog/log"
 	"go-microservice-starter/internal/hello"
 	"go-microservice-starter/internal/validate"
 	"net/http"
@@ -18,11 +17,13 @@ const (
 	_v1  = "/v1"
 )
 
+// Services here are initialized in config/config.go for router access
 type Services struct {
 	ValidatorService validate.Service
 	HelloService     hello.Service
 }
 
+// handler is a wrapper for route handlers to access Services
 type handler struct {
 	Services
 }
@@ -46,8 +47,6 @@ func NewRouter() *Router {
 
 // Setup creates routes for the app
 func (r *Router) Setup(services Services) error {
-	log.Info().Msg("initializing routes...")
-
 	h, err := newHandler(services)
 	if err != nil {
 		return err

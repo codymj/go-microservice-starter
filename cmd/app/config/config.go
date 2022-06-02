@@ -7,6 +7,7 @@ import (
 	"go-microservice-starter/internal/database"
 	"go-microservice-starter/internal/hello"
 	"go-microservice-starter/internal/validate"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -18,6 +19,8 @@ var (
 
 // Set configurations
 func Set() {
+	viper.AutomaticEnv()
+
 	Registry = viper.GetViper()
 	Registry.AddConfigPath(".")
 	Registry.AddConfigPath("../..")
@@ -27,12 +30,12 @@ func Set() {
 		panic(fmt.Errorf("fatal error config file: %w \n", err))
 	}
 
-	SetLoggerLevel()
+	SetLoggerParams()
 }
 
-// SetLoggerLevel sets requested log level
-func SetLoggerLevel() {
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+// SetLoggerParams sets requested log level and other parameters
+func SetLoggerParams() {
+	zerolog.TimeFieldFormat = time.RFC3339
 
 	loggerLevel := Registry.GetString("LOGGER_LEVEL")
 	switch loggerLevel {

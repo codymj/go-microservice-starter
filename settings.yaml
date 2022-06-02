@@ -16,8 +16,8 @@ SERVICE_VERSION: 0.1.0
 LOGGER_LEVEL: info
 
 # database
-DB_HOST: 127.0.0.1
-DB_PORT: 5433
-DB_USER: postgres
+DB_HOST: ec2-52-3-2-245.compute-1.amazonaws.com
+DB_PORT: 5432
+DB_USER: nhvkdzndolwcny
 DB_PASSWORD: <env>
-DB_DBNAME: postgres
+DB_DBNAME: d3f5q8p0bd4qnm
