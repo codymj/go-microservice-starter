@@ -50,7 +50,7 @@ func start() error {
 
 	// start application
 	log.Info().Msg(fmt.Sprintf("service running on port %s", port))
-	err = http.ListenAndServe(port, router.Router)
+	err = http.ListenAndServe(":"+port, router.Router)
 	if err != nil {
 		log.Error().Msg("error setting up application")
 		return err
