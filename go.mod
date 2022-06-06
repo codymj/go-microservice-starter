@@ -1,6 +1,7 @@
 module go-microservice-starter
 
 go 1.18
+// +heroku goVersion go1.18
 
 require (
 	github.com/codymj/jsonvalidator v0.0.2
