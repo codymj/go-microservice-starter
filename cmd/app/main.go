@@ -7,6 +7,7 @@ import (
 	"go-microservice-starter/cmd/app/routes"
 	"go-microservice-starter/internal/database"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -19,7 +20,10 @@ func main() {
 func start() error {
 	// init service
 	config.Set()
-	port := config.Registry.GetString("SERVER_PORT")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = config.Registry.GetString("SERVER_PORT")
+	}
 
 	// init db
 	dbSettings := config.GetDBSettings()
