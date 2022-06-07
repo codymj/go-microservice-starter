@@ -12,9 +12,9 @@ import (
 const (
 	_contentType = "Content-Type"
 	_jsonHeader  = "application/json"
+	_apiVersion  = "/v1"
 
-	_api = "/api"
-	_v1  = "/v1"
+	_helloPath = _apiVersion + "/hello"
 )
 
 // Services here are initialized in config/config.go for router access
@@ -53,7 +53,7 @@ func (r *Router) Setup(services Services) error {
 	}
 
 	r.Router = mux.NewRouter()
-	r.Router.HandleFunc(_api+_v1+"/hello", h.postHello).Methods(http.MethodPost)
+	r.Router.HandleFunc(_helloPath, h.postHello).Methods(http.MethodPost)
 
 	return nil
 }
