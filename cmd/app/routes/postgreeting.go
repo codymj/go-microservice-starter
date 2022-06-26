@@ -11,7 +11,7 @@ import (
 // postGreeting handles request to POST /greeting
 func (h *handler) postGreeting(w http.ResponseWriter, r *http.Request) {
 	// parse body
-	payload, err := ioutil.ReadAll(r.Body)
+	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		err = fmt.Errorf("failed to read body: %v", err)
 		writeErrorResponse(w, err, http.StatusInternalServerError)
@@ -19,7 +19,7 @@ func (h *handler) postGreeting(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// validate payload
-	errors, err := h.ValidatorService.ValidatePostGreeting(r.Context(), payload)
+	errors, err := h.ValidatorService.ValidatePostGreeting(r.Context(), body)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 		return
@@ -31,7 +31,7 @@ func (h *handler) postGreeting(w http.ResponseWriter, r *http.Request) {
 
 	// pass to service
 	var request greeting.PostGreetingRequest
-	err = json.Unmarshal(payload, &request)
+	err = json.Unmarshal(body, &request)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 		return
