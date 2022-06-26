@@ -7,40 +7,58 @@ import (
 	"context"
 )
 
+const getUserById = `-- name: GetUserById :one
+select
+    id_user,
+    username,
+    email,
+    created_on,
+    last_login
+from
+    users
+where
+    id_user = $1 limit 1
+`
+
+func (q *Queries) GetUserById(ctx context.Context, idUser int32) (User, error) {
+	row := q.queryRow(ctx, q.getUserByIdStmt, getUserById, idUser)
+	var i User
+	err := row.Scan(
+		&i.IDUser,
+		&i.Username,
+		&i.Email,
+		&i.CreatedOn,
+		&i.LastLogin,
+	)
+	return i, err
+}
+
 const getUsers = `-- name: GetUsers :many
 select
-    ` + "`" + `id_user` + "`" + `,
-    ` + "`" + `username` + "`" + `,
-    ` + "`" + `email` + "`" + `,
-    ` + "`" + `created_on` + "`" + `,
-    ` + "`" + `last_login` + "`" + `
+    id_user,
+    username,
+    email,
+    created_on,
+    last_login
 from
     users
 `
 
-type GetUsersRow struct {
-	Column1 interface{} `json:"column1"`
-	Column2 interface{} `json:"column2"`
-	Column3 interface{} `json:"column3"`
-	Column4 interface{} `json:"column4"`
-	Column5 interface{} `json:"column5"`
-}
-
-func (q *Queries) GetUsers(ctx context.Context) ([]GetUsersRow, error) {
+func (q *Queries) GetUsers(ctx context.Context) ([]User, error) {
 	rows, err := q.query(ctx, q.getUsersStmt, getUsers)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetUsersRow
+	var items []User
 	for rows.Next() {
-		var i GetUsersRow
+		var i User
 		if err := rows.Scan(
-			&i.Column1,
-			&i.Column2,
-			&i.Column3,
-			&i.Column4,
-			&i.Column5,
+			&i.IDUser,
+			&i.Username,
+			&i.Email,
+			&i.CreatedOn,
+			&i.LastLogin,
 		); err != nil {
 			return nil, err
 		}

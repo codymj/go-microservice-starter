@@ -7,7 +7,8 @@ import (
 )
 
 type Querier interface {
-	GetUsers(ctx context.Context) ([]GetUsersRow, error)
+	GetUserById(ctx context.Context, idUser int32) (User, error)
+	GetUsers(ctx context.Context) ([]User, error)
 }
 
 var _ Querier = (*Queries)(nil)
