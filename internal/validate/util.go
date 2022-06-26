@@ -1,11 +1,11 @@
 package validate
 
-// getPostHelloSchema returns json validator schema for post /greeting endpoint
-func getPostHelloSchema() []byte {
+// getPostGreetingSchema returns json validator schema for POST /greeting
+func getPostGreetingSchema() []byte {
 	return []byte(`
 	{
 	  "$schema": "http://json-schema.org/draft-07/schema#",
-	  "$id": "PostHelloSchema",
+	  "$id": "PostGreetingSchema",
 	  "type": "object",
 	  "required": [
 		"name"

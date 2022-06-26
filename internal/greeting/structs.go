@@ -1,12 +1,12 @@
 package greeting
 
-// PostRequest models request to POST /greeting
-type PostRequest struct {
+// PostGreetingRequest models request to POST /greeting
+type PostGreetingRequest struct {
 	Name string `json:"name"`
 }
 
-// PostResponse models response from POST /greeting
-type PostResponse struct {
+// PostGreetingResponse models response from POST /greeting
+type PostGreetingResponse struct {
 	Status  string `json:"status"`
 	Message string `json:"message"`
 }

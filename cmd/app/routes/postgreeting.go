@@ -19,7 +19,7 @@ func (h *handler) postGreeting(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// validate payload
-	errors, err := h.ValidatorService.ValidatePostHello(r.Context(), payload)
+	errors, err := h.ValidatorService.ValidatePostGreeting(r.Context(), payload)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 		return
@@ -30,7 +30,7 @@ func (h *handler) postGreeting(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// pass to service
-	var request greeting.PostRequest
+	var request greeting.PostGreetingRequest
 	err = json.Unmarshal(payload, &request)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)

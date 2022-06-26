@@ -12,7 +12,7 @@ type service struct {
 
 // Service contract
 type Service interface {
-	SayHello(ctx context.Context, r PostRequest) PostResponse
+	SayHello(ctx context.Context, r PostGreetingRequest) PostGreetingResponse
 }
 
 // New returns an initialized instance

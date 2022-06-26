@@ -9,7 +9,7 @@ type service struct{}
 
 // Service contract
 type Service interface {
-	ValidatePostHello(ctx context.Context, payload []byte) ([]string, error)
+	ValidatePostGreeting(ctx context.Context, payload []byte) ([]string, error)
 }
 
 // New returns an initialized instance
