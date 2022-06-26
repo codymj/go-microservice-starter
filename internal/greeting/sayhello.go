@@ -1,4 +1,4 @@
-package hello
+package greeting
 
 import (
 	"context"
@@ -9,6 +9,6 @@ import (
 func (s *service) SayHello(_ context.Context, r PostRequest) PostResponse {
 	return PostResponse{
 		Status:  "ok",
-		Message: fmt.Sprintf("hello, %s", r.Name),
+		Message: fmt.Sprintf("greeting, %s", r.Name),
 	}
 }

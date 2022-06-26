@@ -5,7 +5,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"go-microservice-starter/internal/database"
-	"go-microservice-starter/internal/hello"
+	"go-microservice-starter/internal/greeting"
 	"go-microservice-starter/internal/validate"
 	"time"
 
@@ -75,7 +75,7 @@ func NewValidateService() validate.Service {
 	return validate.New()
 }
 
-// NewHelloService creates an instance of the hello service
-func NewHelloService(db *database.Connection) hello.Service {
-	return hello.New(db)
+// NewGreetingService creates an instance of the greeting service
+func NewGreetingService(db *database.Connection) greeting.Service {
+	return greeting.New(db)
 }

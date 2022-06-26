@@ -30,12 +30,12 @@ func start() error {
 
 	// init services
 	vs := config.NewValidateService()
-	hs := config.NewHelloService(db)
+	gs := config.NewGreetingService(db)
 
 	// init routes
 	routeServices := routes.Services{
 		ValidatorService: vs,
-		HelloService:     hs,
+		GreetingService:  gs,
 	}
 	router := routes.NewRouter()
 	err = router.Setup(routeServices)

@@ -1,6 +1,6 @@
 package validate
 
-// getPostHelloSchema returns json validator schema for post /hello endpoint
+// getPostHelloSchema returns json validator schema for post /greeting endpoint
 func getPostHelloSchema() []byte {
 	return []byte(`
 	{

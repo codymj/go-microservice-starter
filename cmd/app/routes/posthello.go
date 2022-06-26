@@ -3,13 +3,13 @@ package routes
 import (
 	"encoding/json"
 	"fmt"
-	"go-microservice-starter/internal/hello"
+	"go-microservice-starter/internal/greeting"
 	"io/ioutil"
 	"net/http"
 )
 
-// postHello handles request to post /hello
-func (h *handler) postHello(w http.ResponseWriter, r *http.Request) {
+// postGreeting handles request to POST /greeting
+func (h *handler) postGreeting(w http.ResponseWriter, r *http.Request) {
 	// parse body
 	payload, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -30,13 +30,13 @@ func (h *handler) postHello(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// pass to service
-	var request hello.PostRequest
+	var request greeting.PostRequest
 	err = json.Unmarshal(payload, &request)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
-	res := h.HelloService.SayHello(r.Context(), request)
+	res := h.GreetingService.SayHello(r.Context(), request)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 	}

@@ -6,12 +6,12 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// ValidatePostHello validates the payload to post /hello endpoint
+// ValidatePostHello validates the payload to post /greeting endpoint
 func (s *service) ValidatePostHello(_ context.Context, payload []byte) ([]string, error) {
 	// log info
 	log.Info().
 		RawJSON("payload", payload).
-		Msg("validating POST /hello payload")
+		Msg("validating POST /greeting payload")
 
 	// validate payload against schema
 	errors, err := jsonvalidator.Validate(getPostHelloSchema(), payload)

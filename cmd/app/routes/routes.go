@@ -2,7 +2,7 @@ package routes
 
 import (
 	"fmt"
-	"go-microservice-starter/internal/hello"
+	"go-microservice-starter/internal/greeting"
 	"go-microservice-starter/internal/validate"
 	"net/http"
 
@@ -14,13 +14,13 @@ const (
 	_jsonHeader  = "application/json"
 	_apiVersion  = "/v1"
 
-	_helloPath = _apiVersion + "/hello"
+	_greetingPath = _apiVersion + "/greeting"
 )
 
 // Services here are initialized in /cmd/app/config/config.go for router access
 type Services struct {
 	ValidatorService validate.Service
-	HelloService     hello.Service
+	GreetingService  greeting.Service
 }
 
 // handler is a wrapper for route handlers to access Services
@@ -33,8 +33,8 @@ func newHandler(services Services) (handler, error) {
 	if services.ValidatorService == nil {
 		return handler{}, fmt.Errorf("no validator service provided")
 	}
-	if services.HelloService == nil {
-		return handler{}, fmt.Errorf("no hello service provided")
+	if services.GreetingService == nil {
+		return handler{}, fmt.Errorf("no greeting service provided")
 	}
 
 	return handler{services}, nil
@@ -53,7 +53,7 @@ func (r *Router) Setup(services Services) error {
 	}
 
 	r.Router = mux.NewRouter()
-	r.Router.HandleFunc(_helloPath, h.postHello).Methods(http.MethodPost)
+	r.Router.HandleFunc(_greetingPath, h.postGreeting).Methods(http.MethodPost)
 
 	return nil
 }
