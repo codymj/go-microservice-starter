@@ -17,7 +17,7 @@ const (
 	_helloPath = _apiVersion + "/hello"
 )
 
-// Services here are initialized in config/config.go for router access
+// Services here are initialized in /cmd/app/config/config.go for router access
 type Services struct {
 	ValidatorService validate.Service
 	HelloService     hello.Service

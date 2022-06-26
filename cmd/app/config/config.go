@@ -17,7 +17,7 @@ var (
 	Registry *viper.Viper
 )
 
-// Set configurations
+// Set configuration parameters
 func Set() {
 	viper.AutomaticEnv()
 
@@ -59,7 +59,7 @@ func SetLoggerParams() {
 	}
 }
 
-// GetDBSettings gets the DBConfig
+// GetDBSettings returns the DBConfig (database configuration parameters)
 func GetDBSettings() database.DBConfig {
 	return database.DBConfig{
 		User:     Registry.GetString("DB_USER"),
@@ -75,7 +75,7 @@ func NewValidateService() validate.Service {
 	return validate.New()
 }
 
-// NewHealthService creates an instance of the hello service
-func NewHealthService(db *database.Connection) hello.Service {
+// NewHelloService creates an instance of the hello service
+func NewHelloService(db *database.Connection) hello.Service {
 	return hello.New(db)
 }

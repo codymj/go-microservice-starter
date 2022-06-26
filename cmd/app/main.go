@@ -17,7 +17,7 @@ func main() {
 }
 
 func start() error {
-	// init service
+	// init application
 	config.Set()
 	port := config.Registry.GetString("PORT")
 
@@ -30,7 +30,7 @@ func start() error {
 
 	// init services
 	vs := config.NewValidateService()
-	hs := config.NewHealthService(db)
+	hs := config.NewHelloService(db)
 
 	// init routes
 	routeServices := routes.Services{
