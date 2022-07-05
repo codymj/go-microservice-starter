@@ -7,12 +7,12 @@ import (
 )
 
 var (
-	ErrQueryingDatabase     = errors.New("error querying database")
-	ErrParsingRow           = errors.New("error parsing row returned from database")
-	ErrHashingPassword      = errors.New("error hashing password")
-	ErrSavingToDatabase     = errors.New("error saving to database")
-	ErrUpdatingToDatabase   = errors.New("error updating to database")
-	ErrDeletingFromDatabase = errors.New("error deleting from database")
+	_errQueryingDatabase     = errors.New("error querying database")
+	_errParsingRow           = errors.New("error parsing row returned from database")
+	_errHashingPassword      = errors.New("error hashing password")
+	_errSavingToDatabase     = errors.New("error saving to database")
+	_errUpdatingToDatabase   = errors.New("error updating to database")
+	_errDeletingFromDatabase = errors.New("error deleting from database")
 )
 
 // service dependencies to inject

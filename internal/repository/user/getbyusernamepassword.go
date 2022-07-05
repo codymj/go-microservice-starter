@@ -27,8 +27,8 @@ func (s *service) GetByUsernamePassword(ctx context.Context, un, pass string) (U
 	// hash password
 	hashed, err := hash(pass)
 	if err != nil {
-		log.Err(errors.Wrap(err, ErrHashingPassword.Error()))
-		return User{}, errors.Wrap(err, ErrHashingPassword.Error())
+		log.Err(errors.Wrap(err, _errHashingPassword.Error()))
+		return User{}, errors.Wrap(err, _errHashingPassword.Error())
 	}
 
 	// execute query
@@ -48,8 +48,8 @@ func (s *service) GetByUsernamePassword(ctx context.Context, un, pass string) (U
 		&id, &username, &password, &email, &createdOn, &lastLogin,
 	)
 	if err != nil {
-		log.Err(errors.Wrap(err, ErrParsingRow.Error()))
-		return User{}, errors.Wrap(err, ErrParsingRow.Error())
+		log.Err(errors.Wrap(err, _errParsingRow.Error()))
+		return User{}, errors.Wrap(err, _errParsingRow.Error())
 	}
 
 	user = User{

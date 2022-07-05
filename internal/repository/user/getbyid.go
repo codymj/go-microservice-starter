@@ -40,8 +40,8 @@ func (s *service) GetById(ctx context.Context, id int64) (User, error) {
 		&id, &username, &password, &email, &createdOn, &lastLogin,
 	)
 	if err != nil {
-		log.Err(errors.Wrap(err, ErrParsingRow.Error()))
-		return User{}, errors.Wrap(err, ErrParsingRow.Error())
+		log.Err(errors.Wrap(err, _errParsingRow.Error()))
+		return User{}, errors.Wrap(err, _errParsingRow.Error())
 	}
 
 	user = User{

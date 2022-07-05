@@ -27,8 +27,8 @@ func (s *service) List(ctx context.Context) ([]User, error) {
 	query := listQuery()
 	rows, err := s.DB.DB.QueryContext(ctx, query)
 	if err != nil {
-		log.Err(errors.Wrap(err, ErrQueryingDatabase.Error()))
-		return nil, errors.Wrap(err, ErrQueryingDatabase.Error())
+		log.Err(errors.Wrap(err, _errQueryingDatabase.Error()))
+		return nil, errors.Wrap(err, _errQueryingDatabase.Error())
 	}
 	defer Close(&err, io.Closer(rows))
 
@@ -46,8 +46,8 @@ func (s *service) List(ctx context.Context) ([]User, error) {
 			&id, &username, &password, &email, &createdOn, &lastLogin,
 		)
 		if err != nil {
-			log.Err(errors.Wrap(err, ErrParsingRow.Error()))
-			return nil, errors.Wrap(err, ErrParsingRow.Error())
+			log.Err(errors.Wrap(err, _errParsingRow.Error()))
+			return nil, errors.Wrap(err, _errParsingRow.Error())
 		}
 
 		user := User{

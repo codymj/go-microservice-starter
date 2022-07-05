@@ -27,8 +27,8 @@ func (s *service) Save(ctx context.Context, user User) (User, error) {
 	// hash password
 	hashed, err := hash(user.Password)
 	if err != nil {
-		log.Err(errors.Wrap(err, ErrHashingPassword.Error()))
-		return User{}, errors.Wrap(err, ErrHashingPassword.Error())
+		log.Err(errors.Wrap(err, _errHashingPassword.Error()))
+		return User{}, errors.Wrap(err, _errHashingPassword.Error())
 	}
 	user.Password = hashed
 
@@ -48,8 +48,8 @@ func (s *service) Save(ctx context.Context, user User) (User, error) {
 		user.LastLogin,
 	)
 	if err != nil {
-		log.Err(errors.Wrap(err, ErrSavingToDatabase.Error()))
-		return User{}, errors.Wrap(err, ErrSavingToDatabase.Error())
+		log.Err(errors.Wrap(err, _errSavingToDatabase.Error()))
+		return User{}, errors.Wrap(err, _errSavingToDatabase.Error())
 	}
 
 	return user, nil

@@ -22,8 +22,8 @@ func (s *service) Update(ctx context.Context, user User) (User, error) {
 	// hash password
 	hashed, err := hash(user.Password)
 	if err != nil {
-		log.Err(errors.Wrap(err, ErrHashingPassword.Error()))
-		return User{}, errors.Wrap(err, ErrHashingPassword.Error())
+		log.Err(errors.Wrap(err, _errHashingPassword.Error()))
+		return User{}, errors.Wrap(err, _errHashingPassword.Error())
 	}
 	user.Password = hashed
 
@@ -37,8 +37,8 @@ func (s *service) Update(ctx context.Context, user User) (User, error) {
 		user.Id,
 	)
 	if err != nil {
-		log.Err(errors.Wrap(err, ErrUpdatingToDatabase.Error()))
-		return User{}, errors.Wrap(err, ErrUpdatingToDatabase.Error())
+		log.Err(errors.Wrap(err, _errUpdatingToDatabase.Error()))
+		return User{}, errors.Wrap(err, _errUpdatingToDatabase.Error())
 	}
 
 	return user, nil

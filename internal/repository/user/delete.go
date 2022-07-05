@@ -19,8 +19,8 @@ func (s *service) Delete(ctx context.Context, id int64) error {
 	query := deleteQuery()
 	_, err := s.DB.DB.ExecContext(ctx, query, id)
 	if err != nil {
-		log.Err(errors.Wrap(err, ErrDeletingFromDatabase.Error()))
-		return errors.Wrap(err, ErrDeletingFromDatabase.Error())
+		log.Err(errors.Wrap(err, _errDeletingFromDatabase.Error()))
+		return errors.Wrap(err, _errDeletingFromDatabase.Error())
 	}
 
 	return nil
