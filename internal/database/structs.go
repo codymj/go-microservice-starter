@@ -13,6 +13,5 @@ type DBConfig struct {
 
 // Connection holds the database connection and the auto generated queries by sqlc
 type Connection struct {
-	Qs Querier
 	DB *sql.DB
 }

@@ -32,7 +32,6 @@ func NewConnection(cfg DBConfig) (*Connection, error) {
 	db.SetMaxIdleConns(10)
 
 	conn := Connection{
-		Qs: Querier(New(db)),
 		DB: db,
 	}
 	return &conn, nil

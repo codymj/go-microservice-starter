@@ -1,14 +1,17 @@
 module go-microservice-starter
 
 go 1.18
+
 // +heroku goVersion go1.18
 
 require (
 	github.com/codymj/jsonvalidator v0.0.2
 	github.com/gorilla/mux v1.8.0
 	github.com/lib/pq v1.10.6
+	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.26.1
 	github.com/spf13/viper v1.9.0
+	golang.org/x/crypto v0.0.0-20211215165025-cf75a172585e
 )
 
 require (
