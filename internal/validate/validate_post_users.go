@@ -6,8 +6,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// ValidatePostGreeting validates the payload to POST /greeting endpoint
-func (s *service) ValidatePostGreeting(_ context.Context, body []byte) ([]string, error) {
+// ValidatePostUsers validates the payload to POST /user_repository endpoint
+func (s *service) ValidatePostUsers(_ context.Context, body []byte) ([]string, error) {
 	// compact json request for logging
 	compacted, err := compactJson(body)
 	if err != nil {
@@ -17,10 +17,10 @@ func (s *service) ValidatePostGreeting(_ context.Context, body []byte) ([]string
 	// log info
 	log.Info().
 		RawJSON("payload", compacted).
-		Msg("validate:validatepostgreeting")
+		Msg("validate:ValidatePostUsers")
 
 	// validate payload against schema
-	errors, err := jsonvalidator.Validate(getPostGreetingSchema(), compacted)
+	errors, err := jsonvalidator.Validate(getPostUsersSchema(), compacted)
 	if err != nil {
 		return nil, err
 	}

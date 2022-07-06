@@ -1,4 +1,4 @@
-package user
+package user_repository
 
 import (
 	"context"
@@ -18,7 +18,7 @@ func updateQuery() string {
 }
 
 // Update an existing User in the database
-func (s *service) Update(ctx context.Context, user User) (User, error) {
+func (r *repository) Update(ctx context.Context, user User) (User, error) {
 	// hash password
 	hashed, err := hash(user.Password)
 	if err != nil {
@@ -29,7 +29,7 @@ func (s *service) Update(ctx context.Context, user User) (User, error) {
 
 	// execute query
 	query := updateQuery()
-	_, err = s.DB.DB.ExecContext(
+	_, err = r.DB.DB.ExecContext(
 		ctx, query,
 		user.Password,
 		user.Email,

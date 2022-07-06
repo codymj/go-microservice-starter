@@ -3,13 +3,13 @@ package routes
 import (
 	"encoding/json"
 	"fmt"
-	"go-microservice-starter/internal/greeting"
+	"go-microservice-starter/internal/user"
 	"io/ioutil"
 	"net/http"
 )
 
-// postGreeting handles request to POST /greeting
-func (h *handler) postGreeting(w http.ResponseWriter, r *http.Request) {
+// postUsers handles request to POST /users
+func (h *handler) postUsers(w http.ResponseWriter, r *http.Request) {
 	// parse body
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -19,7 +19,7 @@ func (h *handler) postGreeting(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// validate payload
-	errors, err := h.ValidatorService.ValidatePostGreeting(r.Context(), body)
+	errors, err := h.ValidatorService.ValidatePostUsers(r.Context(), body)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 		return
@@ -30,13 +30,13 @@ func (h *handler) postGreeting(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// pass to service
-	var request greeting.PostGreetingRequest
-	err = json.Unmarshal(body, &request)
+	var req user.PostUserRequest
+	err = json.Unmarshal(body, &req)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
-	res := h.GreetingService.SayHello(r.Context(), request)
+	res, err := h.UserService.Create(r.Context(), req)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 	}

@@ -5,7 +5,8 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"go-microservice-starter/internal/database"
-	"go-microservice-starter/internal/greeting"
+	"go-microservice-starter/internal/repository/user_repository"
+	"go-microservice-starter/internal/user"
 	"go-microservice-starter/internal/validate"
 	"time"
 
@@ -70,12 +71,17 @@ func GetDBSettings() database.DBConfig {
 	}
 }
 
+// NewUserRepository creates an instance of the user_repository
+func NewUserRepository(db *database.Connection) user_repository.Repository {
+	return user_repository.New(db)
+}
+
 // NewValidateService creates an instance of the json validate service
 func NewValidateService() validate.Service {
 	return validate.New()
 }
 
-// NewGreetingService creates an instance of the greeting service
-func NewGreetingService(db *database.Connection) greeting.Service {
-	return greeting.New(db)
+// NewUserService creates an instance of the user_service
+func NewUserService(ur user_repository.Repository) user.Service {
+	return user.New(ur)
 }

@@ -1,4 +1,4 @@
-package user
+package user_repository
 
 import (
 	"context"
@@ -23,10 +23,10 @@ func getByIdQuery() string {
 }
 
 // GetById returns a single row of User by id from database
-func (s *service) GetById(ctx context.Context, id int64) (User, error) {
+func (r *repository) GetById(ctx context.Context, id int64) (User, error) {
 	// execute query
 	query := getByIdQuery()
-	row := s.DB.DB.QueryRowContext(ctx, query, id)
+	row := r.DB.DB.QueryRowContext(ctx, query, id)
 
 	// parse result
 	user := User{}
@@ -40,8 +40,8 @@ func (s *service) GetById(ctx context.Context, id int64) (User, error) {
 		&id, &username, &password, &email, &createdOn, &lastLogin,
 	)
 	if err != nil {
-		log.Err(errors.Wrap(err, _errParsingRow.Error()))
-		return User{}, errors.Wrap(err, _errParsingRow.Error())
+		log.Err(errors.Wrap(err, _errParsingRowFromDatabase.Error()))
+		return User{}, errors.Wrap(err, _errParsingRowFromDatabase.Error())
 	}
 
 	user = User{

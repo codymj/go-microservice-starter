@@ -1,4 +1,4 @@
-package user
+package user_repository
 
 import (
 	"context"
@@ -19,11 +19,12 @@ func saveQuery() string {
 	values (
 		$1, $2, $3, $4, $5
 	)
+	returning id
     `
 }
 
 // Save a new User into the database
-func (s *service) Save(ctx context.Context, user User) (User, error) {
+func (r *repository) Save(ctx context.Context, user User) (User, error) {
 	// hash password
 	hashed, err := hash(user.Password)
 	if err != nil {
@@ -37,8 +38,9 @@ func (s *service) Save(ctx context.Context, user User) (User, error) {
 	user.LastLogin = user.CreatedOn
 
 	// execute query
+	var lastInsertedId int64
 	query := saveQuery()
-	_, err = s.DB.DB.ExecContext(
+	row := r.DB.DB.QueryRowContext(
 		ctx,
 		query,
 		user.Username,
@@ -47,10 +49,12 @@ func (s *service) Save(ctx context.Context, user User) (User, error) {
 		user.CreatedOn,
 		user.LastLogin,
 	)
+	err = row.Scan(&lastInsertedId)
 	if err != nil {
 		log.Err(errors.Wrap(err, _errSavingToDatabase.Error()))
 		return User{}, errors.Wrap(err, _errSavingToDatabase.Error())
 	}
+	user.Id = lastInsertedId
 
 	return user, nil
 }

@@ -28,14 +28,17 @@ func start() error {
 		return err
 	}
 
+	// init repositories
+	ur := config.NewUserRepository(db)
+
 	// init services
 	vs := config.NewValidateService()
-	gs := config.NewGreetingService(db)
+	us := config.NewUserService(ur)
 
 	// init routes
 	routeServices := routes.Services{
 		ValidatorService: vs,
-		GreetingService:  gs,
+		UserService:      us,
 	}
 	router := routes.NewRouter()
 	err = router.Setup(routeServices)

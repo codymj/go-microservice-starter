@@ -1,4 +1,4 @@
-package user
+package user_repository
 
 import (
 	"context"
@@ -23,7 +23,7 @@ func getByUsernamePasswordQuery() string {
 }
 
 // GetByUsernamePassword returns a single row of User by username, password
-func (s *service) GetByUsernamePassword(ctx context.Context, un, pass string) (User, error) {
+func (r *repository) GetByUsernamePassword(ctx context.Context, un, pass string) (User, error) {
 	// hash password
 	hashed, err := hash(pass)
 	if err != nil {
@@ -33,7 +33,7 @@ func (s *service) GetByUsernamePassword(ctx context.Context, un, pass string) (U
 
 	// execute query
 	query := getByUsernamePasswordQuery()
-	row := s.DB.DB.QueryRowContext(ctx, query, un, hashed)
+	row := r.DB.DB.QueryRowContext(ctx, query, un, hashed)
 
 	// parse result
 	user := User{}
@@ -48,8 +48,8 @@ func (s *service) GetByUsernamePassword(ctx context.Context, un, pass string) (U
 		&id, &username, &password, &email, &createdOn, &lastLogin,
 	)
 	if err != nil {
-		log.Err(errors.Wrap(err, _errParsingRow.Error()))
-		return User{}, errors.Wrap(err, _errParsingRow.Error())
+		log.Err(errors.Wrap(err, _errParsingRowFromDatabase.Error()))
+		return User{}, errors.Wrap(err, _errParsingRowFromDatabase.Error())
 	}
 
 	user = User{

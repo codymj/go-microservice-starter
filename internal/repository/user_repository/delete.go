@@ -1,4 +1,4 @@
-package user
+package user_repository
 
 import (
 	"context"
@@ -14,10 +14,10 @@ func deleteQuery() string {
 }
 
 // Delete an existing User from the database
-func (s *service) Delete(ctx context.Context, id int64) error {
+func (r *repository) Delete(ctx context.Context, id int64) error {
 	// execute query
 	query := deleteQuery()
-	_, err := s.DB.DB.ExecContext(ctx, query, id)
+	_, err := r.DB.DB.ExecContext(ctx, query, id)
 	if err != nil {
 		log.Err(errors.Wrap(err, _errDeletingFromDatabase.Error()))
 		return errors.Wrap(err, _errDeletingFromDatabase.Error())

@@ -1,4 +1,4 @@
-package user
+package user_repository
 
 import (
 	"context"
@@ -22,10 +22,10 @@ func listQuery() string {
 }
 
 // List returns all rows of User from database
-func (s *service) List(ctx context.Context) ([]User, error) {
+func (r *repository) List(ctx context.Context) ([]User, error) {
 	// execute query
 	query := listQuery()
-	rows, err := s.DB.DB.QueryContext(ctx, query)
+	rows, err := r.DB.DB.QueryContext(ctx, query)
 	if err != nil {
 		log.Err(errors.Wrap(err, _errQueryingDatabase.Error()))
 		return nil, errors.Wrap(err, _errQueryingDatabase.Error())
@@ -46,8 +46,8 @@ func (s *service) List(ctx context.Context) ([]User, error) {
 			&id, &username, &password, &email, &createdOn, &lastLogin,
 		)
 		if err != nil {
-			log.Err(errors.Wrap(err, _errParsingRow.Error()))
-			return nil, errors.Wrap(err, _errParsingRow.Error())
+			log.Err(errors.Wrap(err, _errParsingRowFromDatabase.Error()))
+			return nil, errors.Wrap(err, _errParsingRowFromDatabase.Error())
 		}
 
 		user := User{
