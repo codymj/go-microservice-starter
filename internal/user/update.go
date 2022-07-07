@@ -7,7 +7,7 @@ import (
 )
 
 // Update an existing user
-func (s *service) Update(ctx context.Context, r PutUserRequest) (user_repository.User, error) {
+func (s *service) Update(ctx context.Context, r PutUserRequest) (*user_repository.User, error) {
 	// log info
 	log.Info().
 		Interface("request", r).
@@ -17,9 +17,9 @@ func (s *service) Update(ctx context.Context, r PutUserRequest) (user_repository
 	unupdatedUser := transformPutUserRequest(r)
 
 	// save user via repository
-	updatedUser, err := s.ur.Save(ctx, unupdatedUser)
+	updatedUser, err := s.ur.Save(ctx, &unupdatedUser)
 	if err != nil {
-		return user_repository.User{}, err
+		return &user_repository.User{}, err
 	}
 
 	return updatedUser, nil

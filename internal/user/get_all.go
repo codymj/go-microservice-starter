@@ -7,7 +7,7 @@ import (
 )
 
 // GetAll returns all users
-func (s *service) GetAll(ctx context.Context) ([]user_repository.User, error) {
+func (s *service) GetAll(ctx context.Context) ([]*user_repository.User, error) {
 	// log info
 	log.Info().
 		Msg("user:GetAll")

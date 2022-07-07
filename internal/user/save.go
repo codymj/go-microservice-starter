@@ -7,7 +7,7 @@ import (
 )
 
 // Save creates a new user
-func (s *service) Save(ctx context.Context, r PostUserRequest) (user_repository.User, error) {
+func (s *service) Save(ctx context.Context, r PostUserRequest) (*user_repository.User, error) {
 	// log info
 	log.Info().
 		Interface("request", r).
@@ -17,9 +17,9 @@ func (s *service) Save(ctx context.Context, r PostUserRequest) (user_repository.
 	unsavedUser := transformPostUserRequest(r)
 
 	// save user via repository
-	savedUser, err := s.ur.Save(ctx, unsavedUser)
+	savedUser, err := s.ur.Save(ctx, &unsavedUser)
 	if err != nil {
-		return user_repository.User{}, err
+		return &user_repository.User{}, err
 	}
 
 	return savedUser, nil

@@ -21,7 +21,7 @@ func listQuery() string {
 }
 
 // GetAll returns all rows of User from database
-func (r *repository) GetAll(ctx context.Context) ([]User, error) {
+func (r *repository) GetAll(ctx context.Context) ([]*User, error) {
 	// execute query
 	query := listQuery()
 	rows, err := r.DB.DB.QueryContext(ctx, query)
@@ -32,7 +32,7 @@ func (r *repository) GetAll(ctx context.Context) ([]User, error) {
 	defer Close(&err, io.Closer(rows))
 
 	// parse result
-	users := make([]User, 0)
+	users := make([]*User, 0)
 	for rows.Next() {
 		var id int64
 		var username string
@@ -55,7 +55,7 @@ func (r *repository) GetAll(ctx context.Context) ([]User, error) {
 			CreatedOn: createdOn,
 			LastLogin: lastLogin,
 		}
-		users = append(users, user)
+		users = append(users, &user)
 	}
 
 	return users, nil

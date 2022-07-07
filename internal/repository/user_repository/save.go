@@ -24,16 +24,14 @@ func saveQuery() string {
 }
 
 // Save a new User into the database
-func (r *repository) Save(ctx context.Context, user User) (User, error) {
+func (r *repository) Save(ctx context.Context, user *User) (*User, error) {
 	// hash password
 	hashed, err := hash(user.Password)
 	if err != nil {
 		log.Err(errors.Wrap(err, _errHashingPassword.Error()))
-		return User{}, errors.Wrap(err, _errHashingPassword.Error())
+		return &User{}, errors.Wrap(err, _errHashingPassword.Error())
 	}
 	user.Password = hashed
-
-	// set created_on, last_login
 	user.CreatedOn = time.Now().UnixMilli()
 	user.LastLogin = user.CreatedOn
 
@@ -52,13 +50,13 @@ func (r *repository) Save(ctx context.Context, user User) (User, error) {
 	err = row.Scan(&lastInsertedId)
 	if err != nil {
 		log.Err(errors.Wrap(err, _errSavingToDatabase.Error()))
-		return User{}, errors.Wrap(err, _errSavingToDatabase.Error())
+		return &User{}, errors.Wrap(err, _errSavingToDatabase.Error())
 	}
 
 	// get saved user
 	savedUser, err := r.GetById(ctx, lastInsertedId)
 	if err != nil {
-		return User{}, err
+		return &User{}, err
 	}
 
 	return savedUser, nil

@@ -7,7 +7,7 @@ import (
 )
 
 // GetByUsernamePassword returns a single user by username, password
-func (s *service) GetByUsernamePassword(ctx context.Context, un, pass string) (user_repository.User, error) {
+func (s *service) GetByUsernamePassword(ctx context.Context, un, pass string) (*user_repository.User, error) {
 	// log info
 	log.Info().
 		Str("username", un).
@@ -17,7 +17,7 @@ func (s *service) GetByUsernamePassword(ctx context.Context, un, pass string) (u
 	// get all users via repository
 	user, err := s.ur.GetByUsernamePassword(ctx, un, pass)
 	if err != nil {
-		return user_repository.User{}, err
+		return &user_repository.User{}, err
 	}
 
 	return user, nil

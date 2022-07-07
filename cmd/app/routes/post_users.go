@@ -29,7 +29,7 @@ func (h *handler) postUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// pass to service
+	// call business service to save the user
 	var req user.PostUserRequest
 	err = json.Unmarshal(body, &req)
 	if err != nil {
@@ -39,6 +39,7 @@ func (h *handler) postUsers(w http.ResponseWriter, r *http.Request) {
 	res, err := h.UserService.Save(r.Context(), req)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
+		return
 	}
 
 	// write response

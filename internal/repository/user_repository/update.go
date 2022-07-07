@@ -19,16 +19,14 @@ func updateQuery() string {
 }
 
 // Update an existing User in the database
-func (r *repository) Update(ctx context.Context, user User) (User, error) {
+func (r *repository) Update(ctx context.Context, user *User) (*User, error) {
 	// hash password
 	hashed, err := hash(user.Password)
 	if err != nil {
 		log.Err(errors.Wrap(err, _errHashingPassword.Error()))
-		return User{}, errors.Wrap(err, _errHashingPassword.Error())
+		return &User{}, errors.Wrap(err, _errHashingPassword.Error())
 	}
 	user.Password = hashed
-
-	// set last_login
 	user.LastLogin = time.Now().UnixMilli()
 
 	// execute query
@@ -42,13 +40,13 @@ func (r *repository) Update(ctx context.Context, user User) (User, error) {
 	)
 	if err != nil {
 		log.Err(errors.Wrap(err, _errUpdatingToDatabase.Error()))
-		return User{}, errors.Wrap(err, _errUpdatingToDatabase.Error())
+		return &User{}, errors.Wrap(err, _errUpdatingToDatabase.Error())
 	}
 
 	// get updated user
 	updatedUser, err := r.GetById(ctx, user.Id)
 	if err != nil {
-		return User{}, err
+		return &User{}, err
 	}
 
 	return updatedUser, nil

@@ -22,13 +22,12 @@ func getByIdQuery() string {
 }
 
 // GetById returns a single row of User by id from database
-func (r *repository) GetById(ctx context.Context, id int64) (User, error) {
+func (r *repository) GetById(ctx context.Context, id int64) (*User, error) {
 	// execute query
 	query := getByIdQuery()
 	row := r.DB.DB.QueryRowContext(ctx, query, id)
 
 	// parse result
-	user := User{}
 	var username string
 	var email string
 	var createdOn int64
@@ -37,12 +36,14 @@ func (r *repository) GetById(ctx context.Context, id int64) (User, error) {
 	err := row.Scan(
 		&id, &username, &email, &createdOn, &lastLogin,
 	)
-	if err != nil {
+	if err != nil && err.Error() == "sql: no rows in result set" {
+		return nil, nil
+	} else if err != nil {
 		log.Err(errors.Wrap(err, _errParsingRowFromDatabase.Error()))
-		return User{}, errors.Wrap(err, _errParsingRowFromDatabase.Error())
+		return &User{}, errors.Wrap(err, _errParsingRowFromDatabase.Error())
 	}
 
-	user = User{
+	user := User{
 		Id:        id,
 		Username:  username,
 		Email:     email,
@@ -50,5 +51,5 @@ func (r *repository) GetById(ctx context.Context, id int64) (User, error) {
 		LastLogin: lastLogin,
 	}
 
-	return user, nil
+	return &user, nil
 }

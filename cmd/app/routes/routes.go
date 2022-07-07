@@ -54,6 +54,7 @@ func (r *Router) Setup(services Services) error {
 
 	r.Router = mux.NewRouter()
 	r.Router.HandleFunc(_usersPath, h.getUsers).Methods(http.MethodGet)
+	r.Router.HandleFunc(_usersPath+"/{id}", h.getUsersId).Methods(http.MethodGet)
 	r.Router.HandleFunc(_usersPath, h.postUsers).Methods(http.MethodPost)
 
 	return nil

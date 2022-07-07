@@ -22,12 +22,12 @@ func getByUsernamePasswordQuery() string {
 }
 
 // GetByUsernamePassword returns a single row of User by username, password
-func (r *repository) GetByUsernamePassword(ctx context.Context, un, pass string) (User, error) {
+func (r *repository) GetByUsernamePassword(ctx context.Context, un, pass string) (*User, error) {
 	// hash password
 	hashed, err := hash(pass)
 	if err != nil {
 		log.Err(errors.Wrap(err, _errHashingPassword.Error()))
-		return User{}, errors.Wrap(err, _errHashingPassword.Error())
+		return &User{}, errors.Wrap(err, _errHashingPassword.Error())
 	}
 
 	// execute query
@@ -35,7 +35,6 @@ func (r *repository) GetByUsernamePassword(ctx context.Context, un, pass string)
 	row := r.DB.DB.QueryRowContext(ctx, query, un, hashed)
 
 	// parse result
-	user := User{}
 	var id int64
 	var username string
 	var email string
@@ -47,10 +46,10 @@ func (r *repository) GetByUsernamePassword(ctx context.Context, un, pass string)
 	)
 	if err != nil {
 		log.Err(errors.Wrap(err, _errParsingRowFromDatabase.Error()))
-		return User{}, errors.Wrap(err, _errParsingRowFromDatabase.Error())
+		return &User{}, errors.Wrap(err, _errParsingRowFromDatabase.Error())
 	}
 
-	user = User{
+	user := &User{
 		Id:        id,
 		Username:  username,
 		Email:     email,

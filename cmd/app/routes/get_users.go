@@ -7,35 +7,18 @@ import (
 
 // getUsers handles request to GET /users
 func (h *handler) getUsers(w http.ResponseWriter, r *http.Request) {
-	// parse body
-	//body, err := ioutil.ReadAll(r.Body)
-	//if err != nil {
-	//	err = fmt.Errorf("failed to read body: %v", err)
-	//	writeErrorResponse(w, err, http.StatusInternalServerError)
-	//	return
-	//}
-
-	// validate payload
-	//errors, err := h.ValidatorService.ValidateGetUsers(r.Context(), body)
-	//if err != nil {
-	//	writeErrorResponse(w, err, http.StatusInternalServerError)
-	//	return
-	//}
-	//if errors != nil {
-	//	writeErrorResponse(w, fmt.Errorf("%s", errors), http.StatusBadRequest)
-	//	return
-	//}
-
-	// pass to service
-	//var request user.PostGreetingRequest
-	//err = json.Unmarshal(body, &request)
-	//if err != nil {
-	//	writeErrorResponse(w, err, http.StatusInternalServerError)
-	//	return
-	//}
+	// call business service to get users
 	res, err := h.UserService.GetAll(r.Context())
+	if res == nil {
+		// no users found
+		w.WriteHeader(http.StatusNoContent)
+		_ = json.NewEncoder(w).Encode(nil)
+		return
+	}
 	if err != nil {
+		// some other error
 		writeErrorResponse(w, err, http.StatusInternalServerError)
+		return
 	}
 
 	// write response
