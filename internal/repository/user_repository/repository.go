@@ -13,7 +13,6 @@ var (
 	_errSavingToDatabase       = errors.New("error saving to database")
 	_errUpdatingToDatabase     = errors.New("error updating to database")
 	_errDeletingFromDatabase   = errors.New("error deleting from database")
-	_errWithResultFromDatabase = errors.New("error with result from database")
 )
 
 // repository dependencies to inject
@@ -23,7 +22,7 @@ type repository struct {
 
 // Repository contract
 type Repository interface {
-	List(ctx context.Context) ([]User, error)
+	GetAll(ctx context.Context) ([]User, error)
 	GetById(ctx context.Context, id int64) (User, error)
 	GetByUsernamePassword(ctx context.Context, un, pass string) (User, error)
 	Save(ctx context.Context, user User) (User, error)

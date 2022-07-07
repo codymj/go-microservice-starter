@@ -12,8 +12,11 @@ type service struct {
 
 // Service contract
 type Service interface {
+	Delete(ctx context.Context, id int64) error
 	GetAll(ctx context.Context) ([]user_repository.User, error)
-	Create(ctx context.Context, r PostUserRequest) (user_repository.User, error)
+	GetById(ctx context.Context, id int64) (user_repository.User, error)
+	GetByUsernamePassword(ctx context.Context, un, pass string) (user_repository.User, error)
+	Save(ctx context.Context, r PostUserRequest) (user_repository.User, error)
 }
 
 // New returns an initialized instance

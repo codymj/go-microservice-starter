@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
+	"time"
 )
 
 func updateQuery() string {
@@ -27,6 +28,9 @@ func (r *repository) Update(ctx context.Context, user User) (User, error) {
 	}
 	user.Password = hashed
 
+	// set last_login
+	user.LastLogin = time.Now().UnixMilli()
+
 	// execute query
 	query := updateQuery()
 	_, err = r.DB.DB.ExecContext(
@@ -41,5 +45,11 @@ func (r *repository) Update(ctx context.Context, user User) (User, error) {
 		return User{}, errors.Wrap(err, _errUpdatingToDatabase.Error())
 	}
 
-	return user, nil
+	// get updated user
+	updatedUser, err := r.GetById(ctx, user.Id)
+	if err != nil {
+		return User{}, err
+	}
+
+	return updatedUser, nil
 }

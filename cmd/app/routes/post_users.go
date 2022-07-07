@@ -36,7 +36,7 @@ func (h *handler) postUsers(w http.ResponseWriter, r *http.Request) {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
-	res, err := h.UserService.Create(r.Context(), req)
+	res, err := h.UserService.Save(r.Context(), req)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 	}

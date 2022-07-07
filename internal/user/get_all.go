@@ -13,7 +13,7 @@ func (s *service) GetAll(ctx context.Context) ([]user_repository.User, error) {
 		Msg("user:GetAll")
 
 	// get all users via repository
-	users, err := s.ur.List(ctx)
+	users, err := s.ur.GetAll(ctx)
 	if err != nil {
 		return nil, err
 	}

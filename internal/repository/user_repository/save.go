@@ -54,7 +54,12 @@ func (r *repository) Save(ctx context.Context, user User) (User, error) {
 		log.Err(errors.Wrap(err, _errSavingToDatabase.Error()))
 		return User{}, errors.Wrap(err, _errSavingToDatabase.Error())
 	}
-	user.Id = lastInsertedId
 
-	return user, nil
+	// get saved user
+	savedUser, err := r.GetById(ctx, lastInsertedId)
+	if err != nil {
+		return User{}, err
+	}
+
+	return savedUser, nil
 }

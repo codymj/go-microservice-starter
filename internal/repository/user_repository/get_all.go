@@ -20,8 +20,8 @@ func listQuery() string {
     `
 }
 
-// List returns all rows of User from database
-func (r *repository) List(ctx context.Context) ([]User, error) {
+// GetAll returns all rows of User from database
+func (r *repository) GetAll(ctx context.Context) ([]User, error) {
 	// execute query
 	query := listQuery()
 	rows, err := r.DB.DB.QueryContext(ctx, query)

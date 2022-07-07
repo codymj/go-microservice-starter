@@ -6,8 +6,8 @@ import (
 	"go-microservice-starter/internal/repository/user_repository"
 )
 
-// Create creates a new user
-func (s *service) Create(ctx context.Context, r PostUserRequest) (user_repository.User, error) {
+// Save creates a new user
+func (s *service) Save(ctx context.Context, r PostUserRequest) (user_repository.User, error) {
 	// log info
 	log.Info().
 		Interface("request", r).
