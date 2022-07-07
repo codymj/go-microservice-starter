@@ -12,7 +12,6 @@ func listQuery() string {
 	select
 		id,
 		username,
-		password,
 		email,
 		created_on,
 		last_login
@@ -37,13 +36,12 @@ func (r *repository) List(ctx context.Context) ([]User, error) {
 	for rows.Next() {
 		var id int64
 		var username string
-		var password string
 		var email string
 		var createdOn int64
 		var lastLogin int64
 
 		err = rows.Scan(
-			&id, &username, &password, &email, &createdOn, &lastLogin,
+			&id, &username, &email, &createdOn, &lastLogin,
 		)
 		if err != nil {
 			log.Err(errors.Wrap(err, _errParsingRowFromDatabase.Error()))
@@ -53,7 +51,6 @@ func (r *repository) List(ctx context.Context) ([]User, error) {
 		user := User{
 			Id:        id,
 			Username:  username,
-			Password:  password,
 			Email:     email,
 			CreatedOn: createdOn,
 			LastLogin: lastLogin,

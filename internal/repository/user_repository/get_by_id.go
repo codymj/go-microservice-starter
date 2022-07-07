@@ -11,7 +11,6 @@ func getByIdQuery() string {
 	select
 		id,
 		username,
-		password,
 		email,
 		created_on,
 		last_login
@@ -31,13 +30,12 @@ func (r *repository) GetById(ctx context.Context, id int64) (User, error) {
 	// parse result
 	user := User{}
 	var username string
-	var password string
 	var email string
 	var createdOn int64
 	var lastLogin int64
 
 	err := row.Scan(
-		&id, &username, &password, &email, &createdOn, &lastLogin,
+		&id, &username, &email, &createdOn, &lastLogin,
 	)
 	if err != nil {
 		log.Err(errors.Wrap(err, _errParsingRowFromDatabase.Error()))
@@ -47,7 +45,6 @@ func (r *repository) GetById(ctx context.Context, id int64) (User, error) {
 	user = User{
 		Id:        id,
 		Username:  username,
-		Password:  password,
 		Email:     email,
 		CreatedOn: createdOn,
 		LastLogin: lastLogin,
