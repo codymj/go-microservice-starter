@@ -35,8 +35,7 @@ func getByUsernamePasswordQuery() string {
 		last_login
 	from
 		users
-	where
-		$1
+	$1
     `
 }
 
@@ -58,10 +57,17 @@ func buildWhereClause(params map[string]string) string {
 // GetByParams returns a single row of User by query params
 func (r *repository) GetByParams(ctx context.Context, params map[string]string) ([]*User, error) {
 	// build where clause to replace in query
+	query := getByUsernamePasswordQuery()
 	whereClause := buildWhereClause(params)
+	if !strings.EqualFold("", whereClause) {
+		whereClause = "where " + whereClause
+		query = strings.Replace(query, "$1", whereClause, 1)
+	} else {
+		query = strings.Replace(query, "$1", "", 1)
+	}
+	fmt.Println(query)
 
 	// execute query
-	query := strings.Replace(getByUsernamePasswordQuery(), "$1", whereClause, 1)
 	rows, err := r.DB.DB.QueryContext(ctx, query)
 	if err != nil {
 		log.Err(errors.Wrap(err, _errQueryingDatabase.Error()))
