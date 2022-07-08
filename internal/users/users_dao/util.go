@@ -1,4 +1,4 @@
-package users_repository
+package users_dao
 
 import (
 	"golang.org/x/crypto/bcrypt"

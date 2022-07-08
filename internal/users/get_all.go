@@ -3,11 +3,11 @@ package users
 import (
 	"context"
 	"github.com/rs/zerolog/log"
-	"go-microservice-starter/internal/users/users_repository"
+	"go-microservice-starter/internal/users/users_dao"
 )
 
 // GetAll returns all users
-func (s *service) GetAll(ctx context.Context) ([]*users_repository.User, error) {
+func (s *service) GetAll(ctx context.Context) ([]*users_dao.User, error) {
 	// log info
 	log.Info().
 		Msg("users:GetAll")
