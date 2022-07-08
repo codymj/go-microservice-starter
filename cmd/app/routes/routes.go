@@ -14,7 +14,9 @@ const (
 	_jsonHeader  = "application/json"
 	_apiVersion  = "/v1"
 
-	_usersPath = _apiVersion + "/users"
+	// users
+	_usersPath   = _apiVersion + "/users"
+	_usersIdPath = _usersPath + "/{id}"
 )
 
 // Services here are initialized in /cmd/app/config/config.go for router access
@@ -47,15 +49,22 @@ func NewRouter() *Router {
 
 // Setup creates routes for the app
 func (r *Router) Setup(services Services) error {
+	// init handler
 	h, err := newHandler(services)
 	if err != nil {
 		return err
 	}
 
+	// init router
 	r.Router = mux.NewRouter()
-	r.Router.HandleFunc(_usersPath, h.getUsers).Methods(http.MethodGet)
-	r.Router.HandleFunc(_usersPath+"/{id}", h.getUsersId).Methods(http.MethodGet)
-	r.Router.HandleFunc(_usersPath, h.postUsers).Methods(http.MethodPost)
+	setupUserRoutes(r.Router, h)
 
 	return nil
+}
+
+// setupUserRoutes sets up routes for /user endpoint
+func setupUserRoutes(r *mux.Router, h handler) {
+	r.HandleFunc(_usersPath, h.getUsers).Methods(http.MethodGet)
+	r.HandleFunc(_usersIdPath, h.getUsersId).Methods(http.MethodGet)
+	r.HandleFunc(_usersPath, h.postUsers).Methods(http.MethodPost)
 }

@@ -7,6 +7,7 @@ import (
 	"go-microservice-starter/cmd/app/routes"
 	"go-microservice-starter/internal/database"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -20,11 +21,30 @@ func start() error {
 	// init application
 	config.Set()
 	port := config.Registry.GetString("PORT")
+	readTOProp := config.Registry.GetString("SERVER_READ_TIMEOUT")
+	readTimeout, err := time.ParseDuration(readTOProp)
+	if err != nil {
+		log.Fatal().Msg("please set a valid server read timeout duration")
+		return err
+	}
+	writeTOProp := config.Registry.GetString("SERVER_WRITE_TIMEOUT")
+	writeTimeout, err := time.ParseDuration(writeTOProp)
+	if err != nil {
+		log.Fatal().Msg("please set a valid server write timeout duration")
+		return err
+	}
+	idleTOProp := config.Registry.GetString("SERVER_IDLE_TIMEOUT")
+	idleTimeout, err := time.ParseDuration(idleTOProp)
+	if err != nil {
+		log.Fatal().Msg("please set a valid server idle timeout duration")
+		return err
+	}
 
 	// init db
 	dbSettings := config.GetDBSettings()
 	db, err := database.NewConnection(dbSettings)
 	if err != nil {
+		log.Fatal().Msg("error setting up database connection")
 		return err
 	}
 
@@ -43,15 +63,22 @@ func start() error {
 	router := routes.NewRouter()
 	err = router.Setup(routeServices)
 	if err != nil {
-		log.Error().Msg("error setting up routes")
+		log.Fatal().Msg("error setting up routes")
 		return err
 	}
 
 	// start application
 	log.Info().Msg(fmt.Sprintf("service running on port %s", port))
-	err = http.ListenAndServe(":"+port, router.Router)
+	srv := &http.Server{
+		Handler:      router.Router,
+		Addr:         ":" + port,
+		WriteTimeout: writeTimeout,
+		ReadTimeout:  readTimeout,
+		IdleTimeout:  idleTimeout,
+	}
+	err = srv.ListenAndServe()
 	if err != nil {
-		log.Error().Msg("error setting up application")
+		log.Fatal().Msg("error setting up application")
 		return err
 	}
 

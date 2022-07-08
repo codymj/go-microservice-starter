@@ -24,7 +24,7 @@ type repository struct {
 type Repository interface {
 	GetAll(ctx context.Context) ([]*User, error)
 	GetById(ctx context.Context, id int64) (*User, error)
-	GetByUsernamePassword(ctx context.Context, un, pass string) (*User, error)
+	GetByParams(ctx context.Context, params map[string]string) ([]*User, error)
 	Save(ctx context.Context, user *User) (*User, error)
 	Update(ctx context.Context, user *User) (*User, error)
 	Delete(ctx context.Context, id int64) error

@@ -15,7 +15,7 @@ type Service interface {
 	Delete(ctx context.Context, id int64) error
 	GetAll(ctx context.Context) ([]*users_dao.User, error)
 	GetById(ctx context.Context, id int64) (*users_dao.User, error)
-	GetByUsernamePassword(ctx context.Context, un, pass string) (*users_dao.User, error)
+	GetByParams(ctx context.Context, params map[string]string) ([]*users_dao.User, error)
 	Save(ctx context.Context, r PostUsersRequest) (*users_dao.User, error)
 }
 

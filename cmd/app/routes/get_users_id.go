@@ -2,15 +2,15 @@ package routes
 
 import (
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"net/http"
-	"path"
 	"strconv"
 )
 
 // getUsersId handles request to GET /users/{id}
 func (h *handler) getUsersId(w http.ResponseWriter, r *http.Request) {
 	// parse id from path
-	strId := path.Base(r.URL.Path)
+	strId := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(strId)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusBadRequest)
