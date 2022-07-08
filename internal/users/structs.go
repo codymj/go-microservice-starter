@@ -1,14 +1,14 @@
 package users
 
-// PostUserRequest models request to POST /users
-type PostUserRequest struct {
+// PostUsersRequest models request to POST /users
+type PostUsersRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Email    string `json:"email"`
 }
 
-// PutUserRequest models request to PUT /users
-type PutUserRequest struct {
+// PutUsersRequest models request to PUT /users
+type PutUsersRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Email    string `json:"email"`

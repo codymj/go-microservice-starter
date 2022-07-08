@@ -30,7 +30,7 @@ func (h *handler) postUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// call business service to save the users
-	var req users.PostUserRequest
+	var req users.PostUsersRequest
 	err = json.Unmarshal(body, &req)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)

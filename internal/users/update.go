@@ -3,11 +3,11 @@ package users
 import (
 	"context"
 	"github.com/rs/zerolog/log"
-	"go-microservice-starter/internal/repository/user_repository"
+	"go-microservice-starter/internal/repository/users_repository"
 )
 
 // Update an existing users
-func (s *service) Update(ctx context.Context, r PutUserRequest) (*user_repository.User, error) {
+func (s *service) Update(ctx context.Context, r PutUsersRequest) (*users_repository.User, error) {
 	// log info
 	log.Info().
 		Interface("request", r).
@@ -19,7 +19,7 @@ func (s *service) Update(ctx context.Context, r PutUserRequest) (*user_repositor
 	// save users via repository
 	updatedUser, err := s.ur.Save(ctx, &unupdatedUser)
 	if err != nil {
-		return &user_repository.User{}, err
+		return &users_repository.User{}, err
 	}
 
 	return updatedUser, nil

@@ -1,4 +1,4 @@
-package user_repository
+package users_repository
 
 // User models a users entity in the database
 type User struct {
