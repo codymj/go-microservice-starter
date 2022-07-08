@@ -1,4 +1,4 @@
-package user
+package users
 
 import (
 	"context"
@@ -6,14 +6,14 @@ import (
 	"go-microservice-starter/internal/repository/user_repository"
 )
 
-// GetById returns a single user by id
+// GetById returns a single users by id
 func (s *service) GetById(ctx context.Context, id int64) (*user_repository.User, error) {
 	// log info
 	log.Info().
 		Int64("id", id).
-		Msg("user:GetById")
+		Msg("users:GetById")
 
-	// get user via repository
+	// get users via repository
 	user, err := s.ur.GetById(ctx, id)
 	if err != nil {
 		return &user_repository.User{}, err

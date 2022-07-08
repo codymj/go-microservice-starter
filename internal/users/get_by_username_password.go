@@ -1,4 +1,4 @@
-package user
+package users
 
 import (
 	"context"
@@ -6,13 +6,13 @@ import (
 	"go-microservice-starter/internal/repository/user_repository"
 )
 
-// GetByUsernamePassword returns a single user by username, password
+// GetByUsernamePassword returns a single users by username, password
 func (s *service) GetByUsernamePassword(ctx context.Context, un, pass string) (*user_repository.User, error) {
 	// log info
 	log.Info().
 		Str("username", un).
 		Str("password", pass).
-		Msg("user:GetById")
+		Msg("users:GetById")
 
 	// get all users via repository
 	user, err := s.ur.GetByUsernamePassword(ctx, un, pass)

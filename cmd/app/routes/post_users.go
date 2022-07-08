@@ -3,7 +3,7 @@ package routes
 import (
 	"encoding/json"
 	"fmt"
-	"go-microservice-starter/internal/user"
+	"go-microservice-starter/internal/users"
 	"io/ioutil"
 	"net/http"
 )
@@ -29,8 +29,8 @@ func (h *handler) postUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// call business service to save the user
-	var req user.PostUserRequest
+	// call business service to save the users
+	var req users.PostUserRequest
 	err = json.Unmarshal(body, &req)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)

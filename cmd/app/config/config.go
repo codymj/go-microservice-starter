@@ -6,7 +6,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"go-microservice-starter/internal/database"
 	"go-microservice-starter/internal/repository/user_repository"
-	"go-microservice-starter/internal/user"
+	"go-microservice-starter/internal/users"
 	"go-microservice-starter/internal/validate"
 	"time"
 
@@ -82,6 +82,6 @@ func NewValidateService() validate.Service {
 }
 
 // NewUserService creates an instance of the user_service
-func NewUserService(ur user_repository.Repository) user.Service {
-	return user.New(ur)
+func NewUserService(ur user_repository.Repository) users.Service {
+	return users.New(ur)
 }

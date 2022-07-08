@@ -1,4 +1,4 @@
-package user
+package users
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 func (s *service) GetAll(ctx context.Context) ([]*user_repository.User, error) {
 	// log info
 	log.Info().
-		Msg("user:GetAll")
+		Msg("users:GetAll")
 
 	// get all users via repository
 	users, err := s.ur.GetAll(ctx)

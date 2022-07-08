@@ -2,7 +2,7 @@ package routes
 
 import (
 	"fmt"
-	"go-microservice-starter/internal/user"
+	"go-microservice-starter/internal/users"
 	"go-microservice-starter/internal/validate"
 	"net/http"
 
@@ -20,7 +20,7 @@ const (
 // Services here are initialized in /cmd/app/config/config.go for router access
 type Services struct {
 	ValidatorService validate.Service
-	UserService      user.Service
+	UserService      users.Service
 }
 
 // handler is a wrapper for route handlers to access Services
@@ -34,7 +34,7 @@ func newHandler(services Services) (handler, error) {
 		return handler{}, fmt.Errorf("no validator service provided")
 	}
 	if services.UserService == nil {
-		return handler{}, fmt.Errorf("no user service provided")
+		return handler{}, fmt.Errorf("no users service provided")
 	}
 
 	return handler{services}, nil

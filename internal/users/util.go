@@ -1,8 +1,8 @@
-package user
+package users
 
 import "go-microservice-starter/internal/repository/user_repository"
 
-// transformPostUserRequest transforms the POST /user DTO into the repository
+// transformPostUserRequest transforms the POST /users DTO into the repository
 // schema for users
 func transformPostUserRequest(r PostUserRequest) user_repository.User {
 	return user_repository.User{
@@ -12,7 +12,7 @@ func transformPostUserRequest(r PostUserRequest) user_repository.User {
 	}
 }
 
-// transformPutUserRequest transforms the PUT /user DTO into the repository
+// transformPutUserRequest transforms the PUT /users DTO into the repository
 // schema for users
 func transformPutUserRequest(r PutUserRequest) user_repository.User {
 	return user_repository.User{

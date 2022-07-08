@@ -43,7 +43,7 @@ func (r *repository) Update(ctx context.Context, user *User) (*User, error) {
 		return &User{}, errors.Wrap(err, _errUpdatingToDatabase.Error())
 	}
 
-	// get updated user
+	// get updated users
 	updatedUser, err := r.GetById(ctx, user.Id)
 	if err != nil {
 		return &User{}, err

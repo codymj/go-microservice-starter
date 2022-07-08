@@ -53,7 +53,7 @@ func (r *repository) Save(ctx context.Context, user *User) (*User, error) {
 		return &User{}, errors.Wrap(err, _errSavingToDatabase.Error())
 	}
 
-	// get saved user
+	// get saved users
 	savedUser, err := r.GetById(ctx, lastInsertedId)
 	if err != nil {
 		return &User{}, err

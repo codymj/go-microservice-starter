@@ -17,10 +17,10 @@ func (h *handler) getUsersId(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// call business service to get user by id
+	// call business service to get users by id
 	res, err := h.UserService.GetById(r.Context(), int64(id))
 	if res == nil {
-		// no user found
+		// no users found
 		w.WriteHeader(http.StatusNoContent)
 		_ = json.NewEncoder(w).Encode(nil)
 		return
