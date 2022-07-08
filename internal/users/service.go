@@ -2,7 +2,7 @@ package users
 
 import (
 	"context"
-	"go-microservice-starter/internal/repository/users_repository"
+	"go-microservice-starter/internal/users/users_repository"
 )
 
 // service dependencies to inject

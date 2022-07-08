@@ -3,7 +3,7 @@ package users
 import (
 	"context"
 	"github.com/rs/zerolog/log"
-	"go-microservice-starter/internal/repository/users_repository"
+	"go-microservice-starter/internal/users/users_repository"
 )
 
 // GetById returns a single users by id

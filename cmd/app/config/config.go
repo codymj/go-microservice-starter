@@ -5,8 +5,8 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"go-microservice-starter/internal/database"
-	"go-microservice-starter/internal/repository/users_repository"
 	"go-microservice-starter/internal/users"
+	"go-microservice-starter/internal/users/users_repository"
 	"go-microservice-starter/internal/validate"
 	"time"
 

@@ -1,6 +1,8 @@
 package users
 
-import "go-microservice-starter/internal/repository/users_repository"
+import (
+	"go-microservice-starter/internal/users/users_repository"
+)
 
 // transformPostUserRequest transforms the POST /users DTO into the repository
 // schema for users
