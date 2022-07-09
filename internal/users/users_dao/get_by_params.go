@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
-	"github.com/rs/zerolog/log"
 	"io"
 	"strings"
 )
@@ -60,7 +59,6 @@ func (r *repository) GetByParams(ctx context.Context, params map[string]string) 
 	// execute query
 	rows, err := r.db.DB.QueryContext(ctx, query)
 	if err != nil {
-		log.Err(errors.Wrap(err, ErrQueryingDatabase.Error()))
 		return nil, errors.Wrap(err, ErrQueryingDatabase.Error())
 	}
 	defer Close(&err, io.Closer(rows))
@@ -79,7 +77,6 @@ func (r *repository) GetByParams(ctx context.Context, params map[string]string) 
 			&id, &username, &email, &isVerified, &createdOn, &updatedOn,
 		)
 		if err != nil {
-			log.Err(errors.Wrap(err, ErrParsingRowFromDatabase.Error()))
 			return nil, errors.Wrap(err, ErrParsingRowFromDatabase.Error())
 		}
 

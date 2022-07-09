@@ -12,13 +12,19 @@ func (s *service) GetById(ctx context.Context, id uuid.UUID) (*users_dao.User, e
 	// log info
 	log.Info().
 		Str("id", id.String()).
-		Msg("users:GetById")
+		Msg(InfoBeginGetUserById)
 
 	// get users via repository
 	user, err := s.ur.GetById(ctx, id)
 	if err != nil {
+		log.Err(err)
 		return &users_dao.User{}, err
 	}
+
+	// log info
+	log.Info().
+		Str("id", id.String()).
+		Msg(InfoEndGetUserById)
 
 	return user, nil
 }

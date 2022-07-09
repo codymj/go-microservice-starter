@@ -17,7 +17,7 @@ func (h *handler) deleteUsersId(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// call business service to get users by id
-	err = h.UserService.Delete(r.Context(), id)
+	err = h.UserService.DeleteById(r.Context(), id)
 	if err != nil {
 		// some other error
 		writeErrorResponse(w, err, http.StatusInternalServerError)

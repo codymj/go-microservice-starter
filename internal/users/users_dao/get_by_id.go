@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
-	"github.com/rs/zerolog/log"
 )
 
 func getByIdQuery() string {
@@ -42,7 +41,6 @@ func (r *repository) GetById(ctx context.Context, id uuid.UUID) (*User, error) {
 	if err != nil && err.Error() == "sql: no rows in result set" {
 		return nil, nil
 	} else if err != nil {
-		log.Err(errors.Wrap(err, ErrParsingRowFromDatabase.Error()))
 		return &User{}, errors.Wrap(err, ErrParsingRowFromDatabase.Error())
 	}
 

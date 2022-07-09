@@ -11,13 +11,19 @@ func (s *service) GetByParams(ctx context.Context, params map[string]string) ([]
 	// log info
 	log.Info().
 		Interface("params", params).
-		Msg("users:GetById")
+		Msg(InfoBeginGetUsersByParams)
 
 	// get all users via repository
 	users, err := s.ur.GetByParams(ctx, params)
 	if err != nil {
+		log.Err(err)
 		return nil, err
 	}
+
+	// log info
+	log.Info().
+		Interface("params", params).
+		Msg(InfoEndGetUsersByParams)
 
 	return users, nil
 }

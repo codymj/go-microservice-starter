@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
-	"github.com/rs/zerolog/log"
 	"time"
 )
 
@@ -30,7 +29,6 @@ func (r *repository) Save(ctx context.Context, user *User) (*User, error) {
 	// hash password
 	hashed, err := r.ps.HashPassword(user.Password)
 	if err != nil {
-		log.Err(errors.Wrap(err, ErrHashingPassword.Error()))
 		return &User{}, errors.Wrap(err, ErrHashingPassword.Error())
 	}
 	user.Id = uuid.New()
@@ -40,7 +38,7 @@ func (r *repository) Save(ctx context.Context, user *User) (*User, error) {
 
 	// execute query
 	query := saveQuery()
-	_ = r.db.DB.QueryRowContext(
+	_, err = r.db.DB.ExecContext(
 		ctx,
 		query,
 		user.Id.String(),
@@ -51,6 +49,9 @@ func (r *repository) Save(ctx context.Context, user *User) (*User, error) {
 		user.CreatedOn,
 		user.UpdatedOn,
 	)
+	if err != nil {
+		return &User{}, errors.Wrap(err, ErrSavingToDatabase.Error())
+	}
 
 	return user, nil
 }

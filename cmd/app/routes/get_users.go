@@ -16,15 +16,7 @@ func (h *handler) getUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// call business service to get users
-	var res any
-	var err error
-	if len(params) == 0 {
-		// no params set, do a get all
-		res, err = h.UserService.GetAll(r.Context())
-	} else {
-		// at least one param set
-		res, err = h.UserService.GetByParams(r.Context(), params)
-	}
+	res, err := h.UserService.GetByParams(r.Context(), params)
 
 	if res == nil {
 		// no users found

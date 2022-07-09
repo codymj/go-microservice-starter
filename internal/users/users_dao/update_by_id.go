@@ -3,7 +3,6 @@ package users_dao
 import (
 	"context"
 	"github.com/pkg/errors"
-	"github.com/rs/zerolog/log"
 	"time"
 )
 
@@ -17,8 +16,8 @@ func updateQuery() string {
     `
 }
 
-// Update an existing User in the database
-func (r *repository) Update(ctx context.Context, user *User) (*User, error) {
+// UpdateById an existing User in the database by id
+func (r *repository) UpdateById(ctx context.Context, user *User) (*User, error) {
 	user.UpdatedOn = time.Now().UnixMilli()
 
 	// execute query
@@ -31,7 +30,6 @@ func (r *repository) Update(ctx context.Context, user *User) (*User, error) {
 		user.Id,
 	)
 	if err != nil {
-		log.Err(errors.Wrap(err, ErrUpdatingToDatabase.Error()))
 		return &User{}, errors.Wrap(err, ErrUpdatingToDatabase.Error())
 	}
 

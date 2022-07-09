@@ -46,7 +46,7 @@ func (h *handler) putUsersId(w http.ResponseWriter, r *http.Request) {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
-	res, err := h.UserService.Update(r.Context(), id, req)
+	res, err := h.UserService.UpdateById(r.Context(), id, req)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 		return

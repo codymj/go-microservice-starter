@@ -11,16 +11,22 @@ func (s *service) Save(ctx context.Context, r PostUsersRequest) (*users_dao.User
 	// log info
 	log.Info().
 		Interface("request", r).
-		Msg("users:Create")
+		Msg(InfoBeginSaveUser)
 
 	// transform
-	unsavedUser := postUsersRequestToDAO(r)
+	userToSave := postUsersRequestToDAO(r)
 
 	// save users via repository
-	savedUser, err := s.ur.Save(ctx, &unsavedUser)
+	savedUser, err := s.ur.Save(ctx, &userToSave)
 	if err != nil {
+		log.Err(err)
 		return &users_dao.User{}, err
 	}
+
+	// log info
+	log.Info().
+		Interface("request", r).
+		Msg(InfoEndSaveUser)
 
 	return savedUser, nil
 }
