@@ -2,6 +2,7 @@ package users_dao
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 )
@@ -12,8 +13,9 @@ func getByIdQuery() string {
 		id,
 		username,
 		email,
+		is_verified,
 		created_on,
-		last_login
+		updated_on
 	from
 		users
 	where
@@ -22,19 +24,20 @@ func getByIdQuery() string {
 }
 
 // GetById returns a single row of User by id from database
-func (r *repository) GetById(ctx context.Context, id int64) (*User, error) {
+func (r *repository) GetById(ctx context.Context, id uuid.UUID) (*User, error) {
 	// execute query
 	query := getByIdQuery()
-	row := r.DB.DB.QueryRowContext(ctx, query, id)
+	row := r.db.DB.QueryRowContext(ctx, query, id.String())
 
 	// parse result
 	var username string
 	var email string
+	var isVerified bool
 	var createdOn int64
-	var lastLogin int64
+	var updatedOn int64
 
 	err := row.Scan(
-		&id, &username, &email, &createdOn, &lastLogin,
+		&id, &username, &email, &isVerified, &createdOn, &updatedOn,
 	)
 	if err != nil && err.Error() == "sql: no rows in result set" {
 		return nil, nil
@@ -44,11 +47,12 @@ func (r *repository) GetById(ctx context.Context, id int64) (*User, error) {
 	}
 
 	user := User{
-		Id:        id,
-		Username:  username,
-		Email:     email,
-		CreatedOn: createdOn,
-		LastLogin: lastLogin,
+		Id:         id,
+		Username:   username,
+		Email:      email,
+		IsVerified: isVerified,
+		CreatedOn:  createdOn,
+		UpdatedOn:  updatedOn,
 	}
 
 	return &user, nil

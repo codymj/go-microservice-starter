@@ -2,7 +2,7 @@ package users_dao
 
 import (
 	"context"
-	"fmt"
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"io"
@@ -12,16 +12,20 @@ import (
 var (
 	// a valid list of query params
 	_validUserParams = []string{
+		"id",
 		"username",
+		"isVerified",
 		"createdOn",
-		"lastLogin",
+		"updatedOn",
 	}
 
 	// a map of query param to db field
 	_userParamtoDBField = map[string]string{
-		"username":  "username",
-		"createdOn": "created_on",
-		"lastLogin": "last_login",
+		"id":         "id",
+		"username":   "username",
+		"isVerified": "is_verified",
+		"createdOn":  "created_on",
+		"updatedOn":  "last_login",
 	}
 )
 
@@ -31,8 +35,9 @@ func getByUsernamePasswordQuery() string {
 		id,
 		username,
 		email,
+		is_verified,
 		created_on,
-		last_login
+		updated_on
 	from
 		users
 	$1
@@ -51,10 +56,9 @@ func (r *repository) GetByParams(ctx context.Context, params map[string]string) 
 		// if no params were valid, act as get-all
 		query = strings.Replace(query, "$1", "", 1)
 	}
-	fmt.Println(query)
 
 	// execute query
-	rows, err := r.DB.DB.QueryContext(ctx, query)
+	rows, err := r.db.DB.QueryContext(ctx, query)
 	if err != nil {
 		log.Err(errors.Wrap(err, ErrQueryingDatabase.Error()))
 		return nil, errors.Wrap(err, ErrQueryingDatabase.Error())
@@ -64,14 +68,15 @@ func (r *repository) GetByParams(ctx context.Context, params map[string]string) 
 	// parse result
 	users := make([]*User, 0)
 	for rows.Next() {
-		var id int64
+		var id uuid.UUID
 		var username string
 		var email string
+		var isVerified bool
 		var createdOn int64
-		var lastLogin int64
+		var updatedOn int64
 
 		err = rows.Scan(
-			&id, &username, &email, &createdOn, &lastLogin,
+			&id, &username, &email, &isVerified, &createdOn, &updatedOn,
 		)
 		if err != nil {
 			log.Err(errors.Wrap(err, ErrParsingRowFromDatabase.Error()))
@@ -83,7 +88,7 @@ func (r *repository) GetByParams(ctx context.Context, params map[string]string) 
 			Username:  username,
 			Email:     email,
 			CreatedOn: createdOn,
-			LastLogin: lastLogin,
+			UpdatedOn: updatedOn,
 		}
 		users = append(users, &user)
 	}

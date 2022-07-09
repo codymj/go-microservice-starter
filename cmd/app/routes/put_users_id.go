@@ -3,18 +3,18 @@ package routes
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"go-microservice-starter/internal/users"
 	"io/ioutil"
 	"net/http"
-	"strconv"
 )
 
 // putUsersId handles request to PUT /users/{id}
 func (h *handler) putUsersId(w http.ResponseWriter, r *http.Request) {
 	// parse id from path
-	strId := mux.Vars(r)["id"]
-	id, err := strconv.Atoi(strId)
+	idParam := mux.Vars(r)["id"]
+	id, err := uuid.Parse(idParam)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusBadRequest)
 		return
@@ -46,7 +46,7 @@ func (h *handler) putUsersId(w http.ResponseWriter, r *http.Request) {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
-	res, err := h.UserService.Update(r.Context(), int64(id), req)
+	res, err := h.UserService.Update(r.Context(), id, req)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusInternalServerError)
 		return

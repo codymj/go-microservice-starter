@@ -2,6 +2,7 @@ package users
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"go-microservice-starter/internal/users/users_dao"
 )
 
@@ -12,12 +13,12 @@ type service struct {
 
 // Service contract
 type Service interface {
-	Delete(ctx context.Context, id int64) error
+	Delete(ctx context.Context, id uuid.UUID) error
 	GetAll(ctx context.Context) ([]*users_dao.User, error)
-	GetById(ctx context.Context, id int64) (*users_dao.User, error)
+	GetById(ctx context.Context, id uuid.UUID) (*users_dao.User, error)
 	GetByParams(ctx context.Context, params map[string]string) ([]*users_dao.User, error)
 	Save(ctx context.Context, r PostUsersRequest) (*users_dao.User, error)
-	Update(ctx context.Context, id int64, r PutUsersIdRequest) (*users_dao.User, error)
+	Update(ctx context.Context, id uuid.UUID, r PutUsersIdRequest) (*users_dao.User, error)
 }
 
 // New returns an initialized instance

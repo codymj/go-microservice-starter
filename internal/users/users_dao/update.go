@@ -11,21 +11,23 @@ func updateQuery() string {
 	return `
 	update Users set
 		email = $1,
-		last_login = $2
-	where id = $3
+		is_verified = $2,
+		updated_on = $3
+	where id = $4
     `
 }
 
 // Update an existing User in the database
 func (r *repository) Update(ctx context.Context, user *User) (*User, error) {
-	user.LastLogin = time.Now().UnixMilli()
+	user.UpdatedOn = time.Now().UnixMilli()
 
 	// execute query
 	query := updateQuery()
-	_, err := r.DB.DB.ExecContext(
+	_, err := r.db.DB.ExecContext(
 		ctx, query,
 		user.Email,
-		user.LastLogin,
+		user.IsVerified,
+		user.UpdatedOn,
 		user.Id,
 	)
 	if err != nil {

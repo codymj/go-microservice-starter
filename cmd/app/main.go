@@ -41,18 +41,20 @@ func start() error {
 	}
 
 	// init db
-	dbSettings := config.GetDBSettings()
-	db, err := database.NewConnection(dbSettings)
+	db, err := database.NewConnection(config.GetDatabaseConfig())
 	if err != nil {
 		log.Fatal().Msg("error setting up database connection")
 		return err
 	}
 
-	// init repositories
-	ur := config.NewUserRepository(db)
-
-	// init services
+	// init util services
 	vs := config.NewValidateService()
+	ps := config.NewPasswordService(config.GetPasswordConfig())
+
+	// init repositories
+	ur := config.NewUserRepository(db, ps)
+
+	// init business services
 	us := config.NewUserService(ur)
 
 	// init routes

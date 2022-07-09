@@ -2,14 +2,15 @@ package users
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 )
 
 // Delete a users by id
-func (s *service) Delete(ctx context.Context, id int64) error {
+func (s *service) Delete(ctx context.Context, id uuid.UUID) error {
 	// log info
 	log.Info().
-		Int64("id", id).
+		Str("id", id.String()).
 		Msg("users:GetById")
 
 	// get all users via repository

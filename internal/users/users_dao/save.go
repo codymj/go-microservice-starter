@@ -2,6 +2,7 @@ package users_dao
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"time"
@@ -10,54 +11,46 @@ import (
 func saveQuery() string {
 	return `
 	insert into Users (
+		id,
 		username,
 		password,
 		email,
+		is_verified,
 		created_on,
-		last_login
+		updated_on
 	)
 	values (
-		$1, $2, $3, $4, $5
+		$1, $2, $3, $4, $5, $6, $7
 	)
-	returning id
     `
 }
 
 // Save a new User into the database
 func (r *repository) Save(ctx context.Context, user *User) (*User, error) {
 	// hash password
-	hashed, err := hash(user.Password)
+	hashed, err := r.ps.HashPassword(user.Password)
 	if err != nil {
 		log.Err(errors.Wrap(err, ErrHashingPassword.Error()))
 		return &User{}, errors.Wrap(err, ErrHashingPassword.Error())
 	}
+	user.Id = uuid.New()
 	user.Password = hashed
 	user.CreatedOn = time.Now().UnixMilli()
-	user.LastLogin = user.CreatedOn
+	user.UpdatedOn = user.CreatedOn
 
 	// execute query
-	var lastInsertedId int64
 	query := saveQuery()
-	row := r.DB.DB.QueryRowContext(
+	_ = r.db.DB.QueryRowContext(
 		ctx,
 		query,
+		user.Id.String(),
 		user.Username,
 		user.Password,
 		user.Email,
+		user.IsVerified,
 		user.CreatedOn,
-		user.LastLogin,
+		user.UpdatedOn,
 	)
-	err = row.Scan(&lastInsertedId)
-	if err != nil {
-		log.Err(errors.Wrap(err, ErrSavingToDatabase.Error()))
-		return &User{}, errors.Wrap(err, ErrSavingToDatabase.Error())
-	}
 
-	// get saved users
-	savedUser, err := r.GetById(ctx, lastInsertedId)
-	if err != nil {
-		return &User{}, err
-	}
-
-	return savedUser, nil
+	return user, nil
 }

@@ -2,8 +2,10 @@ package users_dao
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"go-microservice-starter/internal/database"
+	"go-microservice-starter/internal/password"
 )
 
 var (
@@ -17,22 +19,24 @@ var (
 
 // repository dependencies to inject
 type repository struct {
-	DB *database.Connection
+	db *database.Connection
+	ps password.Service
 }
 
 // Repository contract
 type Repository interface {
 	GetAll(ctx context.Context) ([]*User, error)
-	GetById(ctx context.Context, id int64) (*User, error)
+	GetById(ctx context.Context, id uuid.UUID) (*User, error)
 	GetByParams(ctx context.Context, params map[string]string) ([]*User, error)
 	Save(ctx context.Context, user *User) (*User, error)
 	Update(ctx context.Context, user *User) (*User, error)
-	Delete(ctx context.Context, id int64) error
+	Delete(ctx context.Context, id uuid.UUID) error
 }
 
 // New returns an initialized instance
-func New(db *database.Connection) Repository {
+func New(db *database.Connection, ps password.Service) Repository {
 	return &repository{
-		DB: db,
+		db: db,
+		ps: ps,
 	}
 }

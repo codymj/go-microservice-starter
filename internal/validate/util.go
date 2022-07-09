@@ -59,14 +59,16 @@ func getPutUsersIdSchema() []byte {
 		"id",
 		"username",
 		"email",
+		"isVerified",
 		"createdOn",
-		"lastLogin"
+		"updatedOn"
 	  ],
 	  "properties": {
 		"id": {
 		  "$id": "#/properties/id",
-		  "type": "number",
-		  "exclusiveMinimum": 0
+		  "type": "string",
+		  "minLength": 36,
+          "maxLength": 36
 		},
 		"username": {
 		  "$id": "#/properties/username",
@@ -78,12 +80,16 @@ func getPutUsersIdSchema() []byte {
 		  "type": "string",
 		  "format": "email"
 		},
+		"isVerified": {
+		  "$id": "#/properties/isVerified",
+		  "type": "boolean"
+		},
 		"createdOn": {
 		  "$id": "#/properties/createdOn",
 		  "type": "number"
 		},
-		"lastLogin": {
-		  "$id": "#/properties/lastLogin",
+		"updatedOn": {
+		  "$id": "#/properties/updatedOn",
 		  "type": "number"
 		}
 	  }

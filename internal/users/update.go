@@ -2,15 +2,16 @@ package users
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 	"go-microservice-starter/internal/users/users_dao"
 )
 
 // Update an existing users
-func (s *service) Update(ctx context.Context, id int64, r PutUsersIdRequest) (*users_dao.User, error) {
+func (s *service) Update(ctx context.Context, id uuid.UUID, r PutUsersIdRequest) (*users_dao.User, error) {
 	// log info
 	log.Info().
-		Int64("id", id).
+		Str("id", id.String()).
 		Interface("request", r).
 		Msg("users:Update")
 
@@ -22,6 +23,7 @@ func (s *service) Update(ctx context.Context, id int64, r PutUsersIdRequest) (*u
 
 	// override updatable fields
 	nonupdatedUser.Email = r.Email
+	nonupdatedUser.IsVerified = r.IsVerified
 
 	// save users via repository
 	updatedUser, err := s.ur.Update(ctx, nonupdatedUser)

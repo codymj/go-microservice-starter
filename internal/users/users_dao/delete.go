@@ -2,6 +2,7 @@ package users_dao
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 )
@@ -14,10 +15,10 @@ func deleteQuery() string {
 }
 
 // Delete an existing User from the database
-func (r *repository) Delete(ctx context.Context, id int64) error {
+func (r *repository) Delete(ctx context.Context, id uuid.UUID) error {
 	// execute query
 	query := deleteQuery()
-	_, err := r.DB.DB.ExecContext(ctx, query, id)
+	_, err := r.db.DB.ExecContext(ctx, query, id.String())
 	if err != nil {
 		log.Err(errors.Wrap(err, ErrDeletingFromDatabase.Error()))
 		return errors.Wrap(err, ErrDeletingFromDatabase.Error())

@@ -2,23 +2,23 @@ package routes
 
 import (
 	"encoding/json"
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"net/http"
-	"strconv"
 )
 
 // getUsersId handles request to GET /users/{id}
 func (h *handler) getUsersId(w http.ResponseWriter, r *http.Request) {
 	// parse id from path
-	strId := mux.Vars(r)["id"]
-	id, err := strconv.Atoi(strId)
+	idParam := mux.Vars(r)["id"]
+	id, err := uuid.Parse(idParam)
 	if err != nil {
 		writeErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
 
 	// call business service to get users by id
-	res, err := h.UserService.GetById(r.Context(), int64(id))
+	res, err := h.UserService.GetById(r.Context(), id)
 	if res == nil {
 		// no users found
 		w.WriteHeader(http.StatusNoContent)

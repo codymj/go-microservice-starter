@@ -5,6 +5,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"go-microservice-starter/internal/database"
+	"go-microservice-starter/internal/password"
 	"go-microservice-starter/internal/users"
 	"go-microservice-starter/internal/users/users_dao"
 	"go-microservice-starter/internal/validate"
@@ -60,8 +61,8 @@ func SetLoggerParams() {
 	}
 }
 
-// GetDBSettings returns the DBConfig (database configuration parameters)
-func GetDBSettings() database.DBConfig {
+// GetDatabaseConfig returns the DBConfig (database configuration parameters)
+func GetDatabaseConfig() *database.DatabaseConfig {
 	connMaxLifetimeProp := Registry.GetString("DB_CONN_MAX_LIFETIME")
 	connMaxLifetime, err := time.ParseDuration(connMaxLifetimeProp)
 	if err != nil {
@@ -69,7 +70,7 @@ func GetDBSettings() database.DBConfig {
 		connMaxLifetime, _ = time.ParseDuration("3m")
 	}
 
-	return database.DBConfig{
+	return &database.DatabaseConfig{
 		User:            Registry.GetString("DB_USER"),
 		Password:        Registry.GetString("DB_PASSWORD"),
 		DBName:          Registry.GetString("DB_DBNAME"),
@@ -81,14 +82,29 @@ func GetDBSettings() database.DBConfig {
 	}
 }
 
+// GetPasswordConfig returns the config struct for configuring password hashes
+func GetPasswordConfig() *password.Config {
+	return &password.Config{
+		Time:    1,
+		Memory:  64 * 1024,
+		Threads: 4,
+		KeyLen:  32,
+	}
+}
+
 // NewUserRepository creates an instance of the users_dao
-func NewUserRepository(db *database.Connection) users_dao.Repository {
-	return users_dao.New(db)
+func NewUserRepository(db *database.Connection, ps password.Service) users_dao.Repository {
+	return users_dao.New(db, ps)
 }
 
 // NewValidateService creates an instance of the json validate service
 func NewValidateService() validate.Service {
 	return validate.New()
+}
+
+// NewPasswordService creates an instance of the password hash service
+func NewPasswordService(cfg *password.Config) password.Service {
+	return password.New(cfg)
 }
 
 // NewUserService creates an instance of the user_service

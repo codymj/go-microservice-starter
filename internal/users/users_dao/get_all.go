@@ -2,6 +2,7 @@ package users_dao
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"io"
@@ -13,8 +14,9 @@ func listQuery() string {
 		id,
 		username,
 		email,
+		is_verified,
 		created_on,
-		last_login
+		updated_on
 	from
 		users
     `
@@ -24,7 +26,7 @@ func listQuery() string {
 func (r *repository) GetAll(ctx context.Context) ([]*User, error) {
 	// execute query
 	query := listQuery()
-	rows, err := r.DB.DB.QueryContext(ctx, query)
+	rows, err := r.db.DB.QueryContext(ctx, query)
 	if err != nil {
 		log.Err(errors.Wrap(err, ErrQueryingDatabase.Error()))
 		return nil, errors.Wrap(err, ErrQueryingDatabase.Error())
@@ -34,14 +36,15 @@ func (r *repository) GetAll(ctx context.Context) ([]*User, error) {
 	// parse result
 	users := make([]*User, 0)
 	for rows.Next() {
-		var id int64
+		var id uuid.UUID
 		var username string
 		var email string
+		var isVerified bool
 		var createdOn int64
-		var lastLogin int64
+		var updatedOn int64
 
 		err = rows.Scan(
-			&id, &username, &email, &createdOn, &lastLogin,
+			&id, &username, &email, &isVerified, &createdOn, &updatedOn,
 		)
 		if err != nil {
 			log.Err(errors.Wrap(err, ErrParsingRowFromDatabase.Error()))
@@ -53,7 +56,7 @@ func (r *repository) GetAll(ctx context.Context) ([]*User, error) {
 			Username:  username,
 			Email:     email,
 			CreatedOn: createdOn,
-			LastLogin: lastLogin,
+			UpdatedOn: updatedOn,
 		}
 		users = append(users, &user)
 	}
