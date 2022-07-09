@@ -13,10 +13,6 @@ const (
 	_contentType = "Content-Type"
 	_jsonHeader  = "application/json"
 	_apiVersion  = "/v1"
-
-	// users
-	_usersPath   = _apiVersion + "/users"
-	_usersIdPath = _usersPath + "/{id}"
 )
 
 // Services here are initialized in /cmd/app/config/config.go for router access
@@ -64,7 +60,11 @@ func (r *Router) Setup(services Services) error {
 
 // setupUserRoutes sets up routes for /user endpoint
 func setupUserRoutes(r *mux.Router, h handler) {
-	r.HandleFunc(_usersPath, h.getUsers).Methods(http.MethodGet)
-	r.HandleFunc(_usersIdPath, h.getUsersId).Methods(http.MethodGet)
-	r.HandleFunc(_usersPath, h.postUsers).Methods(http.MethodPost)
+	usersPath := _apiVersion + "/users" // /v1/users
+	usersIdPath := usersPath + "/{id}"  // /v1/users/{id}
+
+	r.HandleFunc(usersPath, h.getUsers).Methods(http.MethodGet)
+	r.HandleFunc(usersIdPath, h.getUsersId).Methods(http.MethodGet)
+	r.HandleFunc(usersPath, h.postUsers).Methods(http.MethodPost)
+	r.HandleFunc(usersIdPath, h.putUsersId).Methods(http.MethodPut)
 }

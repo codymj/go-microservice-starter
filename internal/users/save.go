@@ -14,7 +14,7 @@ func (s *service) Save(ctx context.Context, r PostUsersRequest) (*users_dao.User
 		Msg("users:Create")
 
 	// transform
-	unsavedUser := transformPostUserRequest(r)
+	unsavedUser := postUsersReqToDAO(r)
 
 	// save users via repository
 	savedUser, err := s.ur.Save(ctx, &unsavedUser)

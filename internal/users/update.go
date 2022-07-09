@@ -7,17 +7,24 @@ import (
 )
 
 // Update an existing users
-func (s *service) Update(ctx context.Context, r PutUsersRequest) (*users_dao.User, error) {
+func (s *service) Update(ctx context.Context, id int64, r PutUsersIdRequest) (*users_dao.User, error) {
 	// log info
 	log.Info().
+		Int64("id", id).
 		Interface("request", r).
-		Msg("users:Create")
+		Msg("users:Update")
 
-	// transform
-	unupdatedUser := transformPutUserRequest(r)
+	// get user to update
+	nonupdatedUser, err := s.ur.GetById(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	// override updatable fields
+	nonupdatedUser.Email = r.Email
 
 	// save users via repository
-	updatedUser, err := s.ur.Save(ctx, &unupdatedUser)
+	updatedUser, err := s.ur.Update(ctx, nonupdatedUser)
 	if err != nil {
 		return &users_dao.User{}, err
 	}

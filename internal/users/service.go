@@ -17,6 +17,7 @@ type Service interface {
 	GetById(ctx context.Context, id int64) (*users_dao.User, error)
 	GetByParams(ctx context.Context, params map[string]string) ([]*users_dao.User, error)
 	Save(ctx context.Context, r PostUsersRequest) (*users_dao.User, error)
+	Update(ctx context.Context, id int64, r PutUsersIdRequest) (*users_dao.User, error)
 }
 
 // New returns an initialized instance
