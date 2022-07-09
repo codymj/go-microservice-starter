@@ -9,7 +9,7 @@ import (
 
 func deleteQuery() string {
 	return `
-	delete Users
+	delete from Users
 	where id = $1
     `
 }

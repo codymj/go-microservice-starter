@@ -55,5 +55,6 @@ func (h *handler) putUsersId(w http.ResponseWriter, r *http.Request) {
 	// write response
 	b, _ := json.Marshal(res)
 	w.Header().Set(_contentType, _jsonHeader)
+	w.WriteHeader(http.StatusOK)
 	_, _ = w.Write(b)
 }

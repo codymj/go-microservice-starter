@@ -67,4 +67,5 @@ func setupUserRoutes(r *mux.Router, h handler) {
 	r.HandleFunc(usersIdPath, h.getUsersId).Methods(http.MethodGet)
 	r.HandleFunc(usersPath, h.postUsers).Methods(http.MethodPost)
 	r.HandleFunc(usersIdPath, h.putUsersId).Methods(http.MethodPut)
+	r.HandleFunc(usersIdPath, h.deleteUsersId).Methods(http.MethodDelete)
 }
