@@ -56,8 +56,8 @@ func (r *repository) GetByParams(ctx context.Context, params map[string]string) 
 	// execute query
 	rows, err := r.DB.DB.QueryContext(ctx, query)
 	if err != nil {
-		log.Err(errors.Wrap(err, _errQueryingDatabase.Error()))
-		return nil, errors.Wrap(err, _errQueryingDatabase.Error())
+		log.Err(errors.Wrap(err, ErrQueryingDatabase.Error()))
+		return nil, errors.Wrap(err, ErrQueryingDatabase.Error())
 	}
 	defer Close(&err, io.Closer(rows))
 
@@ -74,8 +74,8 @@ func (r *repository) GetByParams(ctx context.Context, params map[string]string) 
 			&id, &username, &email, &createdOn, &lastLogin,
 		)
 		if err != nil {
-			log.Err(errors.Wrap(err, _errParsingRowFromDatabase.Error()))
-			return nil, errors.Wrap(err, _errParsingRowFromDatabase.Error())
+			log.Err(errors.Wrap(err, ErrParsingRowFromDatabase.Error()))
+			return nil, errors.Wrap(err, ErrParsingRowFromDatabase.Error())
 		}
 
 		user := User{

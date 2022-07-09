@@ -39,8 +39,8 @@ func (r *repository) GetById(ctx context.Context, id int64) (*User, error) {
 	if err != nil && err.Error() == "sql: no rows in result set" {
 		return nil, nil
 	} else if err != nil {
-		log.Err(errors.Wrap(err, _errParsingRowFromDatabase.Error()))
-		return &User{}, errors.Wrap(err, _errParsingRowFromDatabase.Error())
+		log.Err(errors.Wrap(err, ErrParsingRowFromDatabase.Error()))
+		return &User{}, errors.Wrap(err, ErrParsingRowFromDatabase.Error())
 	}
 
 	user := User{

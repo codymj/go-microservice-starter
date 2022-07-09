@@ -28,8 +28,8 @@ func (r *repository) Save(ctx context.Context, user *User) (*User, error) {
 	// hash password
 	hashed, err := hash(user.Password)
 	if err != nil {
-		log.Err(errors.Wrap(err, _errHashingPassword.Error()))
-		return &User{}, errors.Wrap(err, _errHashingPassword.Error())
+		log.Err(errors.Wrap(err, ErrHashingPassword.Error()))
+		return &User{}, errors.Wrap(err, ErrHashingPassword.Error())
 	}
 	user.Password = hashed
 	user.CreatedOn = time.Now().UnixMilli()
@@ -49,8 +49,8 @@ func (r *repository) Save(ctx context.Context, user *User) (*User, error) {
 	)
 	err = row.Scan(&lastInsertedId)
 	if err != nil {
-		log.Err(errors.Wrap(err, _errSavingToDatabase.Error()))
-		return &User{}, errors.Wrap(err, _errSavingToDatabase.Error())
+		log.Err(errors.Wrap(err, ErrSavingToDatabase.Error()))
+		return &User{}, errors.Wrap(err, ErrSavingToDatabase.Error())
 	}
 
 	// get saved users

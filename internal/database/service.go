@@ -34,5 +34,6 @@ func NewConnection(cfg DBConfig) (*Connection, error) {
 	conn := Connection{
 		DB: db,
 	}
+
 	return &conn, nil
 }
