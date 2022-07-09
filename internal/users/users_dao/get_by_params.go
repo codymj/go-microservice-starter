@@ -11,14 +11,14 @@ import (
 
 var (
 	// a valid list of query params
-	_validParams = []string{
+	_validUserParams = []string{
 		"username",
 		"createdOn",
 		"lastLogin",
 	}
 
 	// a map of query param to db field
-	_queryParamtoDatbaseField = map[string]string{
+	_userParamtoDBField = map[string]string{
 		"username":  "username",
 		"createdOn": "created_on",
 		"lastLogin": "last_login",
@@ -39,30 +39,16 @@ func getByUsernamePasswordQuery() string {
     `
 }
 
-func buildWhereClause(params map[string]string) string {
-	clauses := make([]string, 0)
-	for _, validParam := range _validParams {
-		_, ok := params[validParam]
-		if ok {
-			databaseField := _queryParamtoDatbaseField[validParam]
-			value := params[validParam]
-			clause := fmt.Sprintf("%s='%s'", databaseField, value)
-			clauses = append(clauses, clause)
-		}
-	}
-
-	return strings.Join(clauses, " and ")
-}
-
 // GetByParams returns a single row of User by query params
 func (r *repository) GetByParams(ctx context.Context, params map[string]string) ([]*User, error) {
-	// build where clause to replace in query
+	// build "where" clause to replace in query
 	query := getByUsernamePasswordQuery()
-	whereClause := buildWhereClause(params)
+	whereClause := buildWhereClause(params, _validUserParams, _userParamtoDBField)
 	if !strings.EqualFold("", whereClause) {
 		whereClause = "where " + whereClause
 		query = strings.Replace(query, "$1", whereClause, 1)
 	} else {
+		// if no params were valid, act as get-all
 		query = strings.Replace(query, "$1", "", 1)
 	}
 	fmt.Println(query)
