@@ -24,19 +24,19 @@ func start() error {
 	readTOProp := config.Registry.GetString("SERVER_READ_TIMEOUT")
 	readTimeout, err := time.ParseDuration(readTOProp)
 	if err != nil {
-		log.Fatal().Msg("please set a valid server read timeout duration")
+		log.Fatal().Msg("set a valid server read timeout duration")
 		return err
 	}
 	writeTOProp := config.Registry.GetString("SERVER_WRITE_TIMEOUT")
 	writeTimeout, err := time.ParseDuration(writeTOProp)
 	if err != nil {
-		log.Fatal().Msg("please set a valid server write timeout duration")
+		log.Fatal().Msg("set a valid server write timeout duration")
 		return err
 	}
 	idleTOProp := config.Registry.GetString("SERVER_IDLE_TIMEOUT")
 	idleTimeout, err := time.ParseDuration(idleTOProp)
 	if err != nil {
-		log.Fatal().Msg("please set a valid server idle timeout duration")
+		log.Fatal().Msg("set a valid server idle timeout duration")
 		return err
 	}
 
