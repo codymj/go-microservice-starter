@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
-	"time"
 )
 
 // NewConnection is a struct that wraps a Querier and the actual sql.DB connection
@@ -27,9 +26,9 @@ func NewConnection(cfg DBConfig) (*Connection, error) {
 	}
 
 	// set defaults
-	db.SetConnMaxLifetime(time.Minute * 3)
-	db.SetMaxOpenConns(10)
-	db.SetMaxIdleConns(10)
+	db.SetConnMaxLifetime(cfg.ConnMaxLifetime)
+	db.SetMaxOpenConns(cfg.MaxOpenConns)
+	db.SetMaxIdleConns(cfg.MaxIdleConns)
 
 	conn := Connection{
 		DB: db,
