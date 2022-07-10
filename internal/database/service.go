@@ -7,7 +7,7 @@ import (
 )
 
 // NewConnection is a struct that wraps a Querier and the actual sql.DB connection
-func NewConnection(cfg *DatabaseConfig) (*Connection, error) {
+func NewConnection(cfg *Config) (*Connection, error) {
 	connStr := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d",
 		cfg.Host,

@@ -62,7 +62,7 @@ func SetLoggerParams() {
 }
 
 // GetDatabaseConfig returns the DBConfig (database configuration parameters)
-func GetDatabaseConfig() *database.DatabaseConfig {
+func GetDatabaseConfig() *database.Config {
 	connMaxLifetimeProp := Registry.GetString("DB_CONN_MAX_LIFETIME")
 	connMaxLifetime, err := time.ParseDuration(connMaxLifetimeProp)
 	if err != nil {
@@ -70,7 +70,7 @@ func GetDatabaseConfig() *database.DatabaseConfig {
 		connMaxLifetime, _ = time.ParseDuration("3m")
 	}
 
-	return &database.DatabaseConfig{
+	return &database.Config{
 		User:            Registry.GetString("DB_USER"),
 		Password:        Registry.GetString("DB_PASSWORD"),
 		DBName:          Registry.GetString("DB_DBNAME"),

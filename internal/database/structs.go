@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-// DatabaseConfig is a struct that represents database connection information
-type DatabaseConfig struct {
+// Config is a struct that represents database connection information
+type Config struct {
 	User            string
 	Password        string
 	Host            string
