@@ -30,9 +30,5 @@ func NewConnection(cfg *Config) (*Connection, error) {
 	db.SetMaxOpenConns(cfg.MaxOpenConns)
 	db.SetMaxIdleConns(cfg.MaxIdleConns)
 
-	conn := Connection{
-		DB: db,
-	}
-
-	return &conn, nil
+	return &Connection{DB: db}, nil
 }
