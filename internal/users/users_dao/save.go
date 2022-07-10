@@ -53,5 +53,8 @@ func (r *repository) Save(ctx context.Context, user *User) (*User, error) {
 		return &User{}, errors.Wrap(err, ErrSavingToDatabase.Error())
 	}
 
+	// don't return password hash in response
+	user.Password = ""
+
 	return user, nil
 }

@@ -16,14 +16,19 @@ func (s *service) ValidatePostUsers(_ context.Context, body []byte) ([]string, e
 
 	// log info
 	log.Info().
-		RawJSON("payload", compacted).
-		Msg("validate:ValidatePostUsers")
+		RawJSON("body", compacted).
+		Msg(InfoBeginValidatePostUsers)
 
 	// validate payload against schema
 	errors, err := jsonvalidator.Validate(getPostUsersSchema(), compacted)
 	if err != nil {
 		return nil, err
 	}
+
+	// log info
+	log.Info().
+		RawJSON("body", compacted).
+		Msg(InfoEndValidatePostUsers)
 
 	// check errors
 	if len(errors) > 0 {

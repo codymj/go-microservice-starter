@@ -6,7 +6,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// ValidatePutUsersId validates the payload to POST /users endpoint
+// ValidatePutUsersId validates the payload to PUT /users/{id}
 func (s *service) ValidatePutUsersId(_ context.Context, body []byte) ([]string, error) {
 	// compact json request for logging
 	compacted, err := compactJson(body)
@@ -16,14 +16,19 @@ func (s *service) ValidatePutUsersId(_ context.Context, body []byte) ([]string, 
 
 	// log info
 	log.Info().
-		RawJSON("payload", compacted).
-		Msg("validate:ValidatePutUsersId")
+		RawJSON("body", compacted).
+		Msg(InfoBeginValidatePutUsersId)
 
 	// validate payload against schema
 	errors, err := jsonvalidator.Validate(getPutUsersIdSchema(), compacted)
 	if err != nil {
 		return nil, err
 	}
+
+	// log info
+	log.Info().
+		RawJSON("body", compacted).
+		Msg(InfoEndValidatePutUsersId)
 
 	// check errors
 	if len(errors) > 0 {

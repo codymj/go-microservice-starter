@@ -3,18 +3,8 @@ package users_dao
 import (
 	"context"
 	"github.com/google/uuid"
-	"github.com/pkg/errors"
 	"go-microservice-starter/internal/database"
 	"go-microservice-starter/internal/password"
-)
-
-var (
-	ErrQueryingDatabase       = errors.New("error querying database")
-	ErrParsingRowFromDatabase = errors.New("error parsing row from database")
-	ErrHashingPassword        = errors.New("error hashing password")
-	ErrSavingToDatabase       = errors.New("error saving to database")
-	ErrUpdatingToDatabase     = errors.New("error updating to database")
-	ErrDeletingFromDatabase   = errors.New("error deleting from database")
 )
 
 // repository dependencies to inject
