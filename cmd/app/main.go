@@ -5,6 +5,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"go-microservice-starter/cmd/app/config"
 	"go-microservice-starter/cmd/app/routes"
+	"go-microservice-starter/cmd/app/util"
 	"go-microservice-starter/internal/database"
 	"net/http"
 	"time"
@@ -58,7 +59,7 @@ func start() error {
 	us := config.NewUserService(ur)
 
 	// init routes
-	routeServices := routes.Services{
+	routeServices := util.Services{
 		ValidatorService: vs,
 		UserService:      us,
 	}

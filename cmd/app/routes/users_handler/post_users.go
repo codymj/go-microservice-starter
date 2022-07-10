@@ -1,8 +1,9 @@
-package routes
+package users_handler
 
 import (
 	"encoding/json"
 	"fmt"
+	"go-microservice-starter/cmd/app/util"
 	"go-microservice-starter/internal/users"
 	"io/ioutil"
 	"net/http"
@@ -14,18 +15,18 @@ func (h *handler) postUsers(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		err = fmt.Errorf("failed to read body: %v", err)
-		writeErrorResponse(w, err, http.StatusInternalServerError)
+		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
 
 	// validate payload
-	errors, err := h.ValidatorService.ValidatePostUsers(r.Context(), body)
+	errors, err := h.services.ValidatorService.ValidatePostUsers(r.Context(), body)
 	if err != nil {
-		writeErrorResponse(w, err, http.StatusInternalServerError)
+		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
 	if errors != nil {
-		writeErrorResponse(w, fmt.Errorf("%s", errors), http.StatusBadRequest)
+		util.WriteErrorResponse(w, fmt.Errorf("%s", errors), http.StatusBadRequest)
 		return
 	}
 
@@ -33,18 +34,18 @@ func (h *handler) postUsers(w http.ResponseWriter, r *http.Request) {
 	var req users.PostUsersRequest
 	err = json.Unmarshal(body, &req)
 	if err != nil {
-		writeErrorResponse(w, err, http.StatusInternalServerError)
+		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
-	res, err := h.UserService.Save(r.Context(), req)
+	res, err := h.services.UserService.Save(r.Context(), req)
 	if err != nil {
-		writeErrorResponse(w, err, http.StatusInternalServerError)
+		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
 
 	// write response
 	b, _ := json.Marshal(res)
-	w.Header().Set(_contentType, _jsonHeader)
+	w.Header().Set(util.ContentType, util.JsonHeader)
 	w.WriteHeader(http.StatusCreated)
 	_, _ = w.Write(b)
 }

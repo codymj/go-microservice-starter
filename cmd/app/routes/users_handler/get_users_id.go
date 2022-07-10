@@ -1,9 +1,10 @@
-package routes
+package users_handler
 
 import (
 	"encoding/json"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
+	"go-microservice-starter/cmd/app/util"
 	"net/http"
 )
 
@@ -13,12 +14,12 @@ func (h *handler) getUsersId(w http.ResponseWriter, r *http.Request) {
 	idParam := mux.Vars(r)["id"]
 	id, err := uuid.Parse(idParam)
 	if err != nil {
-		writeErrorResponse(w, err, http.StatusBadRequest)
+		util.WriteErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
 
 	// call business service to get users by id
-	res, err := h.UserService.GetById(r.Context(), id)
+	res, err := h.services.UserService.GetById(r.Context(), id)
 	if res == nil {
 		// no users found
 		w.WriteHeader(http.StatusNoContent)
@@ -27,12 +28,12 @@ func (h *handler) getUsersId(w http.ResponseWriter, r *http.Request) {
 	}
 	if err != nil {
 		// some other error
-		writeErrorResponse(w, err, http.StatusInternalServerError)
+		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
 
 	// write response
 	b, _ := json.Marshal(res)
-	w.Header().Set(_contentType, _jsonHeader)
+	w.Header().Set(util.ContentType, util.JsonHeader)
 	_, _ = w.Write(b)
 }
