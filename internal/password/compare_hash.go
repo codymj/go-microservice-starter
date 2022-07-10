@@ -18,9 +18,9 @@ func (s *service) CompareHash(password, hash string) (bool, error) {
 	_, err := fmt.Sscanf(
 		parts[3],
 		"m=%d,t=%d,p=%d",
-		cfg.Memory,
-		cfg.Time,
-		cfg.Threads,
+		&cfg.Memory,
+		&cfg.Time,
+		&cfg.Threads,
 	)
 	if err != nil {
 		return false, err
