@@ -1,4 +1,4 @@
-package password
+package password_test
 
 import (
 	. "github.com/onsi/ginkgo/v2"
