@@ -17,7 +17,7 @@ func (h *handler) get(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// call business service to get users
-	res, err := h.services.UserService.GetByParams(r.Context(), params)
+	res, err := h.services.UserService.Get(r.Context(), params)
 
 	if res == nil {
 		// no users found

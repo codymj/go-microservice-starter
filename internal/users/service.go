@@ -14,8 +14,8 @@ type service struct {
 // Service contract
 type Service interface {
 	DeleteById(ctx context.Context, id uuid.UUID) error
+	Get(ctx context.Context, params map[string]string) ([]*users_dao.User, error)
 	GetById(ctx context.Context, id uuid.UUID) (*users_dao.User, error)
-	GetByParams(ctx context.Context, params map[string]string) ([]*users_dao.User, error)
 	Save(ctx context.Context, r PostUsersRequest) (*users_dao.User, error)
 	UpdateById(ctx context.Context, id uuid.UUID, r PutUsersIdRequest) (*users_dao.User, error)
 }

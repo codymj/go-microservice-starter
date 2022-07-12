@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	_apiVersion = "/v1"
+	ApiVersion = "/v1"
 )
 
 // Router for routing requests
@@ -27,7 +27,7 @@ func (r *Router) Setup(services util.Services) error {
 
 	// init handlers
 	uh := users_handler.New(services)
-	uh.InitRoutes(r.Router, _apiVersion)
+	uh.InitRoutes(r.Router, ApiVersion)
 
 	return nil
 }
