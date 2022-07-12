@@ -3,24 +3,14 @@ package users_handler
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/google/uuid"
-	"github.com/gorilla/mux"
 	"go-microservice-starter/cmd/app/util"
 	"go-microservice-starter/internal/users"
 	"io/ioutil"
 	"net/http"
 )
 
-// putUsersId handles request to PUT /users/{id}
-func (h *handler) putUsersId(w http.ResponseWriter, r *http.Request) {
-	// parse id from path
-	idParam := mux.Vars(r)["id"]
-	id, err := uuid.Parse(idParam)
-	if err != nil {
-		util.WriteErrorResponse(w, err, http.StatusBadRequest)
-		return
-	}
-
+// post handles request to POST /users
+func (h *handler) post(w http.ResponseWriter, r *http.Request) {
 	// parse body
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -30,7 +20,7 @@ func (h *handler) putUsersId(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// validate payload
-	errors, err := h.services.ValidatorService.ValidatePutUsersId(r.Context(), body)
+	errors, err := h.services.ValidatorService.ValidatePostUsers(r.Context(), body)
 	if err != nil {
 		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
 		return
@@ -40,14 +30,14 @@ func (h *handler) putUsersId(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// call business service to update the users
-	var req users.PutUsersIdRequest
+	// call business service to save the users
+	var req users.PostUsersRequest
 	err = json.Unmarshal(body, &req)
 	if err != nil {
 		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
-	res, err := h.services.UserService.UpdateById(r.Context(), id, req)
+	res, err := h.services.UserService.Save(r.Context(), req)
 	if err != nil {
 		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
 		return
@@ -56,6 +46,6 @@ func (h *handler) putUsersId(w http.ResponseWriter, r *http.Request) {
 	// write response
 	b, _ := json.Marshal(res)
 	w.Header().Set(util.ContentType, util.JsonHeader)
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 	_, _ = w.Write(b)
 }

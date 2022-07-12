@@ -7,8 +7,8 @@ import (
 	"net/http"
 )
 
-// deleteUsersId handles request to DELETE /users/{id}
-func (h *handler) deleteUsersId(w http.ResponseWriter, r *http.Request) {
+// deleteById handles request to DELETE /users/{id}
+func (h *handler) deleteById(w http.ResponseWriter, r *http.Request) {
 	// parse id from path
 	idParam := mux.Vars(r)["id"]
 	id, err := uuid.Parse(idParam)

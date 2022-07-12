@@ -2,23 +2,24 @@ package users_handler
 
 import (
 	"encoding/json"
+	"github.com/google/uuid"
+	"github.com/gorilla/mux"
 	"go-microservice-starter/cmd/app/util"
 	"net/http"
-	"strings"
 )
 
-// getUsers handles request to GET /users
-func (h *handler) getUsers(w http.ResponseWriter, r *http.Request) {
-	// parse params from path
-	u, _ := r.URL.Parse(r.URL.String())
-	params := make(map[string]string)
-	if !strings.EqualFold("", u.RawQuery) {
-		params = util.ParseQueryString(u.RawQuery)
+// getById handles request to GET /users/{id}
+func (h *handler) getById(w http.ResponseWriter, r *http.Request) {
+	// parse id from path
+	idParam := mux.Vars(r)["id"]
+	id, err := uuid.Parse(idParam)
+	if err != nil {
+		util.WriteErrorResponse(w, err, http.StatusBadRequest)
+		return
 	}
 
-	// call business service to get users
-	res, err := h.services.UserService.GetByParams(r.Context(), params)
-
+	// call business service to get users by id
+	res, err := h.services.UserService.GetById(r.Context(), id)
 	if res == nil {
 		// no users found
 		w.WriteHeader(http.StatusNoContent)
