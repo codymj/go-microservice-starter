@@ -48,13 +48,13 @@ func getByUsernamePasswordQuery() string {
 func (r *repository) GetByParams(ctx context.Context, params map[string]string) ([]*User, error) {
 	// build "where" clause to replace in query
 	query := getByUsernamePasswordQuery()
-	whereClause := buildWhereClause(params)
+	whereClause, vals := buildWhereClause(params)
 	if !strings.EqualFold("", whereClause) {
 		query = strings.Replace(query, "1=1", whereClause, 1)
 	}
 
 	// execute query
-	rows, err := r.db.DB.QueryContext(ctx, query)
+	rows, err := r.db.DB.QueryContext(ctx, query, vals...)
 	if err != nil {
 		return nil, errors.Wrap(err, ErrQueryingDatabase.Error())
 	}

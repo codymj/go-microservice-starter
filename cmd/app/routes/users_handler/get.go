@@ -18,16 +18,14 @@ func (h *handler) get(w http.ResponseWriter, r *http.Request) {
 
 	// call business service to get users
 	res, err := h.services.UserService.Get(r.Context(), params)
-
+	if err != nil {
+		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
+		return
+	}
 	if res == nil {
 		// no users found
 		w.WriteHeader(http.StatusNoContent)
 		_ = json.NewEncoder(w).Encode(nil)
-		return
-	}
-	if err != nil {
-		// some other error
-		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
 
