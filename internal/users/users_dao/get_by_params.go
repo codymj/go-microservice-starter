@@ -10,7 +10,7 @@ import (
 
 var (
 	// a valid list of query params
-	_validUserParams = []string{
+	validUserParams = []string{
 		"id",
 		"username",
 		"isVerified",
@@ -18,8 +18,8 @@ var (
 		"updatedOn",
 	}
 
-	// a map of query param to db field
-	_userParamtoDBField = map[string]string{
+	// a map of query param names to database column names
+	paramToColumn = map[string]string{
 		"id":         "id",
 		"username":   "username",
 		"isVerified": "is_verified",
@@ -39,7 +39,8 @@ func getByUsernamePasswordQuery() string {
 		updated_on
 	from
 		users
-	$1
+	where
+		1=1
     `
 }
 
@@ -47,13 +48,9 @@ func getByUsernamePasswordQuery() string {
 func (r *repository) GetByParams(ctx context.Context, params map[string]string) ([]*User, error) {
 	// build "where" clause to replace in query
 	query := getByUsernamePasswordQuery()
-	whereClause := buildWhereClause(params, _validUserParams, _userParamtoDBField)
+	whereClause := buildWhereClause(params)
 	if !strings.EqualFold("", whereClause) {
-		whereClause = "where " + whereClause
-		query = strings.Replace(query, "$1", whereClause, 1)
-	} else {
-		// if no params were valid, act as get-all
-		query = strings.Replace(query, "$1", "", 1)
+		query = strings.Replace(query, "1=1", whereClause, 1)
 	}
 
 	// execute query
