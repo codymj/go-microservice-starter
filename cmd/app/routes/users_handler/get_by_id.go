@@ -20,15 +20,14 @@ func (h *handler) getById(w http.ResponseWriter, r *http.Request) {
 
 	// call business service to get users by id
 	res, err := h.services.UserService.GetById(r.Context(), id)
+	if err != nil {
+		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
+		return
+	}
 	if res == nil {
 		// no users found
 		w.WriteHeader(http.StatusNoContent)
 		_ = json.NewEncoder(w).Encode(nil)
-		return
-	}
-	if err != nil {
-		// some other error
-		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
 

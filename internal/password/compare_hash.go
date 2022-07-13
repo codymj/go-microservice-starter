@@ -9,7 +9,7 @@ import (
 )
 
 // CompareHash is used to compare a user-inputed password to a hash
-func (s *service) CompareHash(password, hash string) (bool, error) {
+func (*service) CompareHash(password, hash string) (bool, error) {
 	// split hash into parts
 	parts := strings.Split(hash, "$")
 

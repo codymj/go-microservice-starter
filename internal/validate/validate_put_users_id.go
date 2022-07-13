@@ -7,7 +7,7 @@ import (
 )
 
 // ValidatePutUsersId validates the payload to PUT /users/{id}
-func (s *service) ValidatePutUsersId(_ context.Context, body []byte) ([]string, error) {
+func (*service) ValidatePutUsersId(_ context.Context, body []byte) ([]string, error) {
 	// compact json request for logging
 	compacted, err := compactJson(body)
 	if err != nil {

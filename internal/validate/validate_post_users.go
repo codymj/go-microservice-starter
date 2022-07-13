@@ -7,7 +7,7 @@ import (
 )
 
 // ValidatePostUsers validates the payload to POST /users endpoint
-func (s *service) ValidatePostUsers(_ context.Context, body []byte) ([]string, error) {
+func (*service) ValidatePostUsers(_ context.Context, body []byte) ([]string, error) {
 	// compact json request for logging
 	compacted, err := compactJson(body)
 	if err != nil {
