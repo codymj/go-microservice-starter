@@ -1,0 +1,14 @@
+language: go
+
+go:
+	- 1.18
+	- master
+
+# safelist
+branches:
+	only:
+		- master
+		- v2
+
+notifications:
+	email: false
