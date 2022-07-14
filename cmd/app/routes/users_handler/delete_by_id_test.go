@@ -33,8 +33,7 @@ func TestDeleteById_Success(t *testing.T) {
 	}
 
 	// setup request
-	req := &http.Request{}
-	req, _ = http.NewRequest(
+	req, _ := http.NewRequest(
 		http.MethodDelete,
 		fmt.Sprintf("%s/%s/%s", apiVersion, "users", idParam.String()),
 		nil,
@@ -72,8 +71,7 @@ func TestDeleteById_InvalidPathParam(t *testing.T) {
 	}
 
 	// setup request
-	req := &http.Request{}
-	req, _ = http.NewRequest(
+	req, _ := http.NewRequest(
 		http.MethodDelete,
 		fmt.Sprintf("%s/%s/%s", apiVersion, "users", idParam),
 		nil,
@@ -108,8 +106,7 @@ func TestDeleteById_InternalError(t *testing.T) {
 	}
 
 	// setup request
-	req := &http.Request{}
-	req, _ = http.NewRequest(
+	req, _ := http.NewRequest(
 		http.MethodDelete,
 		fmt.Sprintf("%s/%s/%s", apiVersion, "users", idParam.String()),
 		nil,

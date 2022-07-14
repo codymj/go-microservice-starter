@@ -31,8 +31,7 @@ func TestGetByParams_NoResponseBody(t *testing.T) {
 	queryParams := map[string]string{}
 
 	// setup request
-	req := &http.Request{}
-	req, _ = http.NewRequest(
+	req, _ := http.NewRequest(
 		http.MethodGet,
 		fmt.Sprintf("%s/%s", apiVersion, "users"),
 		nil,
@@ -68,8 +67,7 @@ func TestGetByParams_NoQueryParams(t *testing.T) {
 	queryParams := map[string]string{}
 
 	// setup request
-	req := &http.Request{}
-	req, _ = http.NewRequest(
+	req, _ := http.NewRequest(
 		http.MethodGet,
 		fmt.Sprintf("%s/%s", apiVersion, "users"),
 		nil,
