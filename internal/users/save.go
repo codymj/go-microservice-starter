@@ -7,7 +7,7 @@ import (
 )
 
 // Save creates a new users
-func (s *service) Save(ctx context.Context, r PostUsersRequest) (*users_dao.User, error) {
+func (s *service) Save(ctx context.Context, r PostUsersRequest) (users_dao.User, error) {
 	// log info
 	log.Info().
 		Interface("request", r).
@@ -17,10 +17,10 @@ func (s *service) Save(ctx context.Context, r PostUsersRequest) (*users_dao.User
 	userToSave := postUsersRequestToDAO(r)
 
 	// save users via repository
-	savedUser, err := s.ur.Save(ctx, &userToSave)
+	savedUser, err := s.ur.Save(ctx, userToSave)
 	if err != nil {
 		log.Err(err)
-		return &users_dao.User{}, err
+		return users_dao.User{}, err
 	}
 
 	// log info

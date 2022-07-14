@@ -8,7 +8,7 @@ import (
 )
 
 // GetById returns a single users by id
-func (s *service) GetById(ctx context.Context, id uuid.UUID) (*users_dao.User, error) {
+func (s *service) GetById(ctx context.Context, id uuid.UUID) (users_dao.User, error) {
 	// log info
 	log.Info().
 		Str("id", id.String()).
@@ -18,7 +18,7 @@ func (s *service) GetById(ctx context.Context, id uuid.UUID) (*users_dao.User, e
 	user, err := s.ur.GetById(ctx, id)
 	if err != nil {
 		log.Err(err)
-		return &users_dao.User{}, err
+		return users_dao.User{}, err
 	}
 
 	// log info

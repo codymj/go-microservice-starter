@@ -17,7 +17,7 @@ func updateQuery() string {
 }
 
 // UpdateById an existing User in the database by id
-func (r *repository) UpdateById(ctx context.Context, user *User) (*User, error) {
+func (r *repository) UpdateById(ctx context.Context, user User) (User, error) {
 	user.UpdatedOn = time.Now().UnixMilli()
 
 	// execute query
@@ -30,13 +30,13 @@ func (r *repository) UpdateById(ctx context.Context, user *User) (*User, error) 
 		user.Id,
 	)
 	if err != nil {
-		return &User{}, errors.Wrap(err, ErrUpdatingToDatabase.Error())
+		return User{}, errors.Wrap(err, ErrUpdatingToDatabase.Error())
 	}
 
 	// get updated users
 	updatedUser, err := r.GetById(ctx, user.Id)
 	if err != nil {
-		return &User{}, err
+		return User{}, err
 	}
 
 	return updatedUser, nil

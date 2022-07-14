@@ -24,8 +24,8 @@ func (h *handler) getById(w http.ResponseWriter, r *http.Request) {
 		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
-	if res == nil {
-		// no users found
+	if res.Id == uuid.Nil {
+		// no user found
 		w.WriteHeader(http.StatusNoContent)
 		_ = json.NewEncoder(w).Encode(nil)
 		return

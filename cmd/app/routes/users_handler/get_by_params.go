@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-// get handles request to GET /users
-func (h *handler) get(w http.ResponseWriter, r *http.Request) {
+// getByParams handles request to GET /users
+func (h *handler) getByParams(w http.ResponseWriter, r *http.Request) {
 	// parse params from path
 	u, _ := r.URL.Parse(r.URL.String())
 	params := make(map[string]string)
@@ -17,12 +17,12 @@ func (h *handler) get(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// call business service to get users
-	res, err := h.services.UserService.Get(r.Context(), params)
+	res, err := h.services.UserService.GetByParams(r.Context(), params)
 	if err != nil {
 		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
-	if res == nil {
+	if len(res) == 0 {
 		// no users found
 		w.WriteHeader(http.StatusNoContent)
 		_ = json.NewEncoder(w).Encode(nil)

@@ -45,7 +45,7 @@ func getByUsernamePasswordQuery() string {
 }
 
 // GetByParams returns a single row of User by query params
-func (r *repository) GetByParams(ctx context.Context, params map[string]string) ([]*User, error) {
+func (r *repository) GetByParams(ctx context.Context, params map[string]string) ([]User, error) {
 	// build "where" clause to replace in query
 	query := getByUsernamePasswordQuery()
 	whereClause, vals := buildWhereClause(params)
@@ -61,7 +61,7 @@ func (r *repository) GetByParams(ctx context.Context, params map[string]string) 
 	defer Close(&err, io.Closer(rows))
 
 	// parse result
-	users := make([]*User, 0)
+	users := make([]User, 0)
 	for rows.Next() {
 		var id uuid.UUID
 		var username string
@@ -84,7 +84,7 @@ func (r *repository) GetByParams(ctx context.Context, params map[string]string) 
 			CreatedOn: createdOn,
 			UpdatedOn: updatedOn,
 		}
-		users = append(users, &user)
+		users = append(users, user)
 	}
 
 	return users, nil

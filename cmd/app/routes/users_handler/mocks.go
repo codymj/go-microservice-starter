@@ -39,22 +39,22 @@ func (m *mockUsersService) DeleteById(ctx context.Context, id uuid.UUID) error {
 	return args.Error(0)
 }
 
-func (m *mockUsersService) Get(ctx context.Context, params map[string]string) ([]*users_dao.User, error) {
+func (m *mockUsersService) GetByParams(ctx context.Context, params map[string]string) ([]users_dao.User, error) {
 	args := m.Called(ctx, params)
-	return args.Get(0).([]*users_dao.User), args.Error(1)
+	return args.Get(0).([]users_dao.User), args.Error(1)
 }
 
-func (m *mockUsersService) GetById(ctx context.Context, id uuid.UUID) (*users_dao.User, error) {
+func (m *mockUsersService) GetById(ctx context.Context, id uuid.UUID) (users_dao.User, error) {
 	args := m.Called(ctx, id)
-	return args.Get(0).(*users_dao.User), args.Error(1)
+	return args.Get(0).(users_dao.User), args.Error(1)
 }
 
-func (m *mockUsersService) Save(ctx context.Context, r users.PostUsersRequest) (*users_dao.User, error) {
+func (m *mockUsersService) Save(ctx context.Context, r users.PostUsersRequest) (users_dao.User, error) {
 	args := m.Called(ctx, r)
-	return args.Get(0).(*users_dao.User), args.Error(1)
+	return args.Get(0).(users_dao.User), args.Error(1)
 }
 
-func (m *mockUsersService) UpdateById(ctx context.Context, id uuid.UUID, r users.PutUsersIdRequest) (*users_dao.User, error) {
+func (m *mockUsersService) UpdateById(ctx context.Context, id uuid.UUID, r users.PutUsersIdRequest) (users_dao.User, error) {
 	args := m.Called(ctx, id, r)
-	return args.Get(0).(*users_dao.User), args.Error(1)
+	return args.Get(0).(users_dao.User), args.Error(1)
 }

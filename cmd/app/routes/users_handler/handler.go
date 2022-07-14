@@ -18,8 +18,8 @@ func (h *handler) InitRoutes(r *mux.Router, apiVersion string) {
 	usersPath := apiVersion + "/users"
 	usersIdPath := usersPath + "/{id}"
 
-	r.HandleFunc(usersPath, h.get).Methods(http.MethodGet)
 	r.HandleFunc(usersIdPath, h.getById).Methods(http.MethodGet)
+	r.HandleFunc(usersPath, h.getByParams).Methods(http.MethodGet)
 	r.HandleFunc(usersPath, h.post).Methods(http.MethodPost)
 	r.HandleFunc(usersIdPath, h.putById).Methods(http.MethodPut)
 	r.HandleFunc(usersIdPath, h.deleteById).Methods(http.MethodDelete)

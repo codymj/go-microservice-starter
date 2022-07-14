@@ -8,7 +8,7 @@ import (
 )
 
 // UpdateById an existing user by id
-func (s *service) UpdateById(ctx context.Context, id uuid.UUID, r PutUsersIdRequest) (*users_dao.User, error) {
+func (s *service) UpdateById(ctx context.Context, id uuid.UUID, r PutUsersIdRequest) (users_dao.User, error) {
 	// log info
 	log.Info().
 		Str("id", id.String()).
@@ -19,7 +19,7 @@ func (s *service) UpdateById(ctx context.Context, id uuid.UUID, r PutUsersIdRequ
 	userToUpdate, err := s.ur.GetById(ctx, id)
 	if err != nil {
 		log.Err(err)
-		return nil, err
+		return users_dao.User{}, err
 	}
 
 	// override updatable fields
@@ -30,7 +30,7 @@ func (s *service) UpdateById(ctx context.Context, id uuid.UUID, r PutUsersIdRequ
 	updatedUser, err := s.ur.UpdateById(ctx, userToUpdate)
 	if err != nil {
 		log.Err(err)
-		return &users_dao.User{}, err
+		return users_dao.User{}, err
 	}
 
 	// log info

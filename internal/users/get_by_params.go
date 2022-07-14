@@ -6,8 +6,8 @@ import (
 	"go-microservice-starter/internal/users/users_dao"
 )
 
-// Get returns a filtered list of users by query params
-func (s *service) Get(ctx context.Context, params map[string]string) ([]*users_dao.User, error) {
+// GetByParams returns a filtered list of users by query params
+func (s *service) GetByParams(ctx context.Context, params map[string]string) ([]users_dao.User, error) {
 	// log info
 	log.Info().
 		Interface("params", params).

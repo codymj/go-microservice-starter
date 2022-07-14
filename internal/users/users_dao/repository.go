@@ -16,10 +16,10 @@ type repository struct {
 // Repository contract
 type Repository interface {
 	DeleteById(ctx context.Context, id uuid.UUID) error
-	GetById(ctx context.Context, id uuid.UUID) (*User, error)
-	GetByParams(ctx context.Context, params map[string]string) ([]*User, error)
-	Save(ctx context.Context, user *User) (*User, error)
-	UpdateById(ctx context.Context, user *User) (*User, error)
+	GetById(ctx context.Context, id uuid.UUID) (User, error)
+	GetByParams(ctx context.Context, params map[string]string) ([]User, error)
+	Save(ctx context.Context, user User) (User, error)
+	UpdateById(ctx context.Context, user User) (User, error)
 }
 
 // New returns an initialized instance

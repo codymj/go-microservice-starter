@@ -25,11 +25,11 @@ func saveQuery() string {
 }
 
 // Save a new User into the database
-func (r *repository) Save(ctx context.Context, user *User) (*User, error) {
+func (r *repository) Save(ctx context.Context, user User) (User, error) {
 	// hash password
 	hashed, err := r.ps.HashPassword(user.Password)
 	if err != nil {
-		return &User{}, errors.Wrap(err, ErrHashingPassword.Error())
+		return User{}, errors.Wrap(err, ErrHashingPassword.Error())
 	}
 	user.Id = uuid.New()
 	user.Password = hashed
@@ -50,7 +50,7 @@ func (r *repository) Save(ctx context.Context, user *User) (*User, error) {
 		user.UpdatedOn,
 	)
 	if err != nil {
-		return &User{}, errors.Wrap(err, ErrSavingToDatabase.Error())
+		return User{}, errors.Wrap(err, ErrSavingToDatabase.Error())
 	}
 
 	// don't return password hash in response
