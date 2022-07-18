@@ -22,10 +22,10 @@ func (h *handler) post(w http.ResponseWriter, r *http.Request) {
 	// validate payload
 	errors, err := h.services.ValidatorService.ValidatePostUsers(r.Context(), body)
 	if err != nil {
-		util.WriteErrorResponse(w, err, http.StatusInternalServerError)
+		util.WriteErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
-	if errors != nil {
+	if len(errors) > 0 {
 		util.WriteErrorResponse(w, fmt.Errorf("%s", errors), http.StatusBadRequest)
 		return
 	}
