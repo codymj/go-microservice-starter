@@ -16,11 +16,11 @@ SERVICE_VERSION: 0.2.0
 LOGGER_LEVEL: info
 
 # database
-DB_HOST: ec2-52-3-2-245.compute-1.amazonaws.com
+DB_HOST: 192.168.1.101
 DB_PORT: 5432
-DB_USER: nhvkdzndolwcny
+DB_USER: postgres
 DB_PASSWORD: <env>
-DB_DBNAME: d3f5q8p0bd4qnm
+DB_DBNAME: microservice-starter-db
 DB_CONN_MAX_LIFETIME: 3m
 DB_MAX_OPEN_CONNS: 10
 DB_MAX_IDLE_CONNS: 10
