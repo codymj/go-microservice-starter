@@ -6,6 +6,11 @@ import (
 	"strings"
 )
 
+const (
+	ContentType = "Content-Type"
+	JsonHeader  = "application/json"
+)
+
 // ParseQueryString manually parses query string
 func ParseQueryString(s string) map[string]string {
 	params := make(map[string]string)
