@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// Config is a struct that represents database connection information
+// Config is a struct that contains database information
 type Config struct {
 	User            string
 	Password        string
@@ -17,7 +17,7 @@ type Config struct {
 	MaxIdleConns    int
 }
 
-// Connection holds the database connection and the auto generated queries by sqlc
+// Connection for database
 type Connection struct {
 	DB *sql.DB
 }

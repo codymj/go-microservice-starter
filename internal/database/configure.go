@@ -6,8 +6,8 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// NewConnection is a struct that wraps a Querier and the actual sql.DB connection
-func NewConnection(cfg *Config) (*Connection, error) {
+// Configure and return database connection
+func Configure(cfg *Config) (*Connection, error) {
 	connStr := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d",
 		cfg.Host,

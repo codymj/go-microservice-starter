@@ -42,7 +42,7 @@ func start() error {
 	}
 
 	// init db
-	db, err := database.NewConnection(config.GetDatabaseConfig())
+	db, err := database.Configure(config.GetDatabaseConfig())
 	if err != nil {
 		log.Fatal().Msg("error setting up database connection")
 		return err
